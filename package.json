@@ -1,0 +1,18 @@
+{
+  "name": "accessible-course-materials",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Content-driven accessible course-material navigation site",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-content.mjs",
+    "test": "node --test",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check-site.mjs",
+    "ci": "npm run validate && npm test && npm run build && npm run check",
+    "serve": "node scripts/serve.mjs"
+  }
+}

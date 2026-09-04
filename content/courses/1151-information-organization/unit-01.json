@@ -1,0 +1,16 @@
+{
+  "unit": 1,
+  "title": "第 1 單元",
+  "description": "本單元的正式說明待教師補充。",
+  "materials": [
+    {
+      "title": "資訊組織第 1 單元示範教材",
+      "description": "這是驗證網站導覽與連結文字的示範項目，不是正式教材。",
+      "file_type": "PDF（示範）",
+      "dropbox_url": "https://www.dropbox.com/",
+      "note": "待取得正式 Dropbox 分享連結後替換。",
+      "is_demo": true
+    }
+  ],
+  "supplements": []
+}
