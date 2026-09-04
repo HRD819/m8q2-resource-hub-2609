@@ -87,4 +87,12 @@
 
 **Status:** Accepted for MVP placeholders
 
-在未取得正式教材 Dropbox 分享連結前，只在兩門課的第 0 單元放置清楚標示為「示範／待替換」的 Dropbox 連結，用於驗證鍵盤、螢幕閱讀器與外部連結流程。示範項目不得被描述為正式教材，也不得在 repository 內加入教材檔案。
+在未取得正式教材 Dropbox 分享連結前，依使用者提供的 Demo，在目前兩門課第 0 至第 2 單元各放置一個清楚標示為「示範／待替換」的 Dropbox 連結，用於驗證鍵盤、螢幕閱讀器與外部連結流程。示範項目不得被描述為正式教材，也不得在 repository 內加入教材檔案。
+
+## ADR-010 — Guard production publication until content and manual QA are ready
+
+**Status:** Accepted
+
+Pull request 與 `main` push 一律執行品質檢查，但 production deploy 預設不因 push 自動發生。只有人工執行 workflow，或明確設定 repository variable `PUBLISH_PAGES=true`，才允許上傳與部署 Pages artifact。
+
+**Reason:** MVP 目前仍使用 Dropbox 示範連結，keyboard、NVDA、responsive visual、axe 與 Lighthouse 人工／瀏覽器層驗收尚未完成。這個 gate 可保留 GitHub Actions 為正式部署途徑，同時避免未完成內容被意外發布。

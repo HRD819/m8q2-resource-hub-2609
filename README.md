@@ -176,17 +176,17 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 
 ## GitHub Pages deployment
 
-`.github/workflows/deploy-pages.yml` 只在 `main` branch push 或人工觸發時執行。流程會先執行 `npm run ci`；只有內容、測試、建置與網站檢查全數成功，才上傳 `dist/` 並部署。
+`.github/workflows/deploy-pages.yml` 會在 pull request、`main` branch push 或人工觸發時執行品質檢查。流程先執行 `npm run ci`；只有內容、測試、建置與網站檢查全數成功，才可能上傳 `dist/`。為避免尚未完成正式教材與人工驗收時意外公開，push 預設只檢查、不部署；只有人工執行 workflow，或 repository variable `PUBLISH_PAGES` 設為 `true` 的 `main` push 才會部署。
 
 一次性設定：
 
-1. 將專案建立為 Git repository，並設定低可猜性的 GitHub repository 名稱。
-2. 將預設 branch 設為 `main`。
-3. 在 GitHub repository 的 **Settings → Pages → Build and deployment → Source** 選擇 **GitHub Actions**。
-4. Push 後確認 workflow 的 build 與 deploy jobs 成功。
-5. 用直接網址檢查首頁、課程頁、單元頁與 Dropbox 連結，再依 `ACCESSIBILITY_TESTING.md` 完成正式驗收。
+1. 確認 GitHub repository 採符合需求的可見性與低可猜性名稱，預設 branch 為 `main`。
+2. 在 GitHub repository 的 **Settings → Pages → Build and deployment → Source** 選擇 **GitHub Actions**。
+3. 未準備發布時不要建立 `PUBLISH_PAGES=true`；push 僅執行品質檢查。
+4. 完成正式教材替換與人工驗收後，先以 **Actions → 品質檢查與 GitHub Pages 部署 → Run workflow** 做第一次發布；若之後要讓每次 `main` push 自動發布，再建立 repository variable `PUBLISH_PAGES`，值設為 `true`。
+5. 確認 workflow 的品質與部署 jobs 成功，再用直接網址檢查首頁、課程頁、單元頁與 Dropbox 連結，並依 `ACCESSIBILITY_TESTING.md` 完成正式站複核。
 
-目前這個本機資料夾還不是 Git repository，因此尚未能執行 commit、push 或正式 Pages 部署驗證。
+目前本機已有 `main` branch、低可猜性遠端 `origin` 與初始提交；但尚未確認遠端 `main`、repository 可見性、Pages 設定或正式 workflow 結果。不得把本機建置通過解讀為已公開部署。
 
 ## Demo reference
 
