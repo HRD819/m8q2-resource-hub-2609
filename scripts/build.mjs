@@ -24,6 +24,10 @@ function unitPath(unitNumber) {
   return `unit-${String(unitNumber).padStart(2, "0")}`;
 }
 
+function unitLabel(unit) {
+  return unit.code ? `${unit.code} ${unit.title}` : unit.title;
+}
+
 function renderRecentUpdates() {
   const updates = [];
   for (const course of courses) {
@@ -33,12 +37,12 @@ function renderRecentUpdates() {
           updated: unit.updated,
           course,
           unit,
-          label: `${course.semester} ${course.title}${unit.title}`,
+          label: `${course.semester} ${course.title}：${unitLabel(unit)}`,
           href: `${course.slug}/${unitPath(unit.unit)}/`,
         });
       }
       for (const material of unit.materials) {
-        if (!material.updated || material.is_demo) continue;
+        if (!material.updated || material.is_demo || material.status === "planned") continue;
         updates.push({
           updated: material.updated,
           course,
@@ -88,10 +92,18 @@ function renderHome() {
 
 function renderCourse(course) {
   const unitCards = course.units.map((unit) => {
-    const materialCount = unit.materials.filter((material) => !material.is_demo).length;
-    const countText = materialCount > 0 ? `${materialCount} 份正式教材` : "目前僅有示範內容或尚無教材";
+    const registeredMaterials = unit.materials.filter((material) => !material.is_demo);
+    const availableCount = registeredMaterials.filter((material) => material.status !== "planned").length;
+    const plannedCount = registeredMaterials.filter((material) => material.status === "planned").length;
+    let countText = "目前僅有示範內容或尚無教材";
+    if (registeredMaterials.length > 0) {
+      countText = `已登錄 ${registeredMaterials.length} 項教材資料`;
+      if (availableCount > 0) countText += `，${availableCount} 項可開啟`;
+      if (plannedCount > 0) countText += `，${plannedCount} 項待提供 Dropbox 連結`;
+      countText += "。";
+    }
     return `<li class="card">
-            <h2><a href="${unitPath(unit.unit)}/">${escapeHtml(unit.title)}</a></h2>
+            <h2><a href="${unitPath(unit.unit)}/">${escapeHtml(unitLabel(unit))}</a></h2>
             <p>${escapeHtml(unit.description)}</p>
             <p>${escapeHtml(countText)}</p>
           </li>`;
@@ -124,17 +136,22 @@ function renderCourse(course) {
 function renderMaterials(materials) {
   if (materials.length === 0) return `<p>目前尚未加入教材。</p>`;
   return `<ul class="material-list">
-          ${materials.map((material) => `<li class="material-card${material.is_demo ? " demo" : ""}">
+          ${materials.map((material) => {
+            const planned = material.status === "planned";
+            return `<li class="material-card${material.is_demo ? " demo" : ""}${planned ? " planned" : ""}">
             <h3>${escapeHtml(material.title)}</h3>
             ${material.is_demo ? '<p class="status"><strong>示範內容，不是正式教材</strong></p>' : ""}
+            ${planned ? '<p class="status"><strong>預計教材，Dropbox 連結尚未提供</strong></p>' : ""}
             <p>${escapeHtml(material.description)}</p>
             <dl class="metadata">
               <div><dt>檔案格式</dt><dd>${escapeHtml(material.file_type)}</dd></div>
+              ${material.filename ? `<div><dt>檔案名稱</dt><dd>${escapeHtml(material.filename)}</dd></div>` : ""}
               ${material.updated ? `<div><dt>更新日期</dt><dd><time datetime="${material.updated}">${formatDate(material.updated)}</time></dd></div>` : ""}
             </dl>
             ${material.note ? `<p><strong>注意事項：</strong>${escapeHtml(material.note)}</p>` : ""}
-            <p><a class="material-link" href="${escapeHtml(material.dropbox_url)}">在 Dropbox 開啟${escapeHtml(material.title)}（${escapeHtml(material.file_type)}）</a></p>
-          </li>`).join("\n          ")}
+            ${planned ? "" : `<p><a class="material-link" href="${escapeHtml(material.dropbox_url)}">在 Dropbox 開啟${escapeHtml(material.title)}（${escapeHtml(material.file_type)}）</a></p>`}
+          </li>`;
+          }).join("\n          ")}
         </ul>`;
 }
 
@@ -154,9 +171,9 @@ function renderUnit(course, unit) {
       ${renderBreadcrumb([
         { label: "首頁", href: "../../" },
         { label: courseLabel, href: "../" },
-        { label: unit.title },
+        { label: unitLabel(unit) },
       ])}
-      <h1>${escapeHtml(`${courseLabel}：${unit.title}`)}</h1>
+      <h1>${escapeHtml(`${courseLabel}：${unitLabel(unit)}`)}</h1>
       <section aria-labelledby="unit-description-heading">
         <h2 id="unit-description-heading">單元說明</h2>
         <p>${escapeHtml(unit.description)}</p>
@@ -175,7 +192,7 @@ function renderUnit(course, unit) {
     courses,
     context: "unit",
     currentSlug: course.slug,
-    pageTitle: `${courseLabel}：${unit.title}`,
+    pageTitle: `${courseLabel}：${unitLabel(unit)}`,
     description: `${unit.description} ${site.purpose}`,
     body,
   });
@@ -235,6 +252,7 @@ h3 { font-size: 1.2rem; }
 .card h2, .card h3, .material-card h3, .resource-list h3 { margin-top: 0; }
 .material-list { display: grid; gap: 1.25rem; }
 .material-card.demo { border-color: var(--demo-border); background: var(--demo-bg); }
+.material-card.planned { border-style: dashed; }
 .status { color: #543f00; }
 .metadata { margin: 1rem 0; }
 .metadata div { display: grid; grid-template-columns: minmax(7rem, 10rem) 1fr; gap: 0.75rem; }

@@ -3,7 +3,7 @@ import path from "node:path";
 
 const REQUIRED_SITE_FIELDS = ["title", "purpose", "instructions"];
 const REQUIRED_COURSE_FIELDS = ["semester", "title", "slug", "description", "order"];
-const REQUIRED_MATERIAL_FIELDS = ["title", "description", "file_type", "dropbox_url"];
+const REQUIRED_MATERIAL_FIELDS = ["title", "description", "file_type"];
 
 function isPlainObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -56,10 +56,24 @@ function validateMaterials(materials, location, errors) {
     const itemLocation = `${location}.materials[${index}]`;
     if (!requireObject(material, itemLocation, errors)) return;
     for (const field of REQUIRED_MATERIAL_FIELDS) requireString(material, field, itemLocation, errors);
-    if (typeof material.dropbox_url === "string" && material.dropbox_url.trim()) {
-      validateDropboxUrl(material.dropbox_url, itemLocation, errors);
+    const status = material.status ?? "available";
+    if (!new Set(["available", "planned"]).has(status)) {
+      errors.push(`${itemLocation}: status 只能是 available 或 planned。`);
+    }
+    if (status === "planned") {
+      if (typeof material.dropbox_url === "string" && material.dropbox_url.trim()) {
+        errors.push(`${itemLocation}: planned 教材尚未可用，不應設定 dropbox_url。`);
+      }
+    } else {
+      requireString(material, "dropbox_url", itemLocation, errors);
+      if (typeof material.dropbox_url === "string" && material.dropbox_url.trim()) {
+        validateDropboxUrl(material.dropbox_url, itemLocation, errors);
+      }
     }
     validateDate(material.updated, itemLocation, errors);
+    if (material.filename !== undefined && (typeof material.filename !== "string" || material.filename.trim() === "")) {
+      errors.push(`${itemLocation}: filename 如有提供，必須是非空白字串。`);
+    }
     if (material.note !== undefined && typeof material.note !== "string") {
       errors.push(`${itemLocation}: note 必須是字串。`);
     }
@@ -145,6 +159,9 @@ export async function loadContent(contentRoot) {
         if (!Number.isInteger(unit.unit) || unit.unit < 0) errors.push(`${unitLocation}: unit 必須是非負整數。`);
         requireString(unit, "title", unitLocation, errors);
         requireString(unit, "description", unitLocation, errors);
+        if (unit.code !== undefined && (typeof unit.code !== "string" || unit.code.trim() === "")) {
+          errors.push(`${unitLocation}: code 如有提供，必須是非空白字串。`);
+        }
         const filenameUnit = Number(filename.match(/\d+/)[0]);
         if (unit.unit !== filenameUnit) errors.push(`${unitLocation}: unit 與檔名編號不一致。`);
         validateDate(unit.updated, unitLocation, errors);
@@ -155,8 +172,10 @@ export async function loadContent(contentRoot) {
     }
 
     const unitNumbers = units.map((unit) => unit.unit);
+    const unitCodes = units.map((unit) => unit.code).filter(Boolean);
     if (unitNumbers[0] !== 0) errors.push(`${courseLocation}: 課程必須從第 0 單元開始。`);
     if (new Set(unitNumbers).size !== unitNumbers.length) errors.push(`${courseLocation}: 單元編號不得重複。`);
+    if (new Set(unitCodes).size !== unitCodes.length) errors.push(`${courseLocation}: 單元 code 不得重複。`);
     course.units = units.sort((a, b) => a.unit - b.unit);
     courses.push(course);
   }

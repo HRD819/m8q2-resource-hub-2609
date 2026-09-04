@@ -1,0 +1,23 @@
+{
+  "unit": 4,
+  "code": "1-04",
+  "title": "卡片目錄",
+  "description": "本單元介紹卡片目錄；正式文字說明待補。",
+  "materials": [
+    {
+      "title": "1-04 卡片目錄",
+      "description": "卡片目錄參考檔案的 PowerPoint 版本。",
+      "file_type": "PowerPoint（PPTX）",
+      "status": "planned",
+      "note": "檔案名稱與 Dropbox 分享連結待提供。"
+    },
+    {
+      "title": "1-04 卡片目錄",
+      "description": "卡片目錄參考檔案的 PDF 版本。",
+      "file_type": "PDF",
+      "status": "planned",
+      "note": "檔案名稱與 Dropbox 分享連結待提供。"
+    }
+  ],
+  "supplements": []
+}

@@ -1,15 +1,22 @@
 {
   "unit": 2,
-  "title": "第 2 單元",
-  "description": "本單元的正式說明待教師補充。",
+  "code": "1-02",
+  "title": "編目規範",
+  "description": "本單元介紹編目規範；正式文字說明待補。",
   "materials": [
     {
-      "title": "資訊組織第 2 單元示範教材",
-      "description": "這是驗證網站導覽與連結文字的示範項目，不是正式教材。",
-      "file_type": "PDF（示範）",
-      "dropbox_url": "https://www.dropbox.com/",
-      "note": "待取得正式 Dropbox 分享連結後替換。",
-      "is_demo": true
+      "title": "1-02 編目規範",
+      "description": "編目規範參考檔案的 PowerPoint 版本。",
+      "file_type": "PowerPoint（PPTX）",
+      "status": "planned",
+      "note": "檔案名稱與 Dropbox 分享連結待提供。"
+    },
+    {
+      "title": "1-02 編目規範",
+      "description": "編目規範參考檔案的 PDF 版本。",
+      "file_type": "PDF",
+      "status": "planned",
+      "note": "檔案名稱與 Dropbox 分享連結待提供。"
     }
   ],
   "supplements": []

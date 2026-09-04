@@ -1,15 +1,40 @@
 {
   "unit": 0,
-  "title": "第 0 單元",
-  "description": "本單元的正式說明待教師補充。",
+  "code": "1-00",
+  "title": "課程介紹",
+  "description": "本單元為課程介紹；正式文字說明待補。",
   "materials": [
     {
-      "title": "資訊組織第 0 單元示範教材",
-      "description": "這是驗證網站導覽與連結文字的示範項目，不是正式教材。",
-      "file_type": "PDF（示範）",
-      "dropbox_url": "https://www.dropbox.com/",
-      "note": "待取得正式 Dropbox 分享連結後替換。",
-      "is_demo": true
+      "title": "1151 資訊組織課程大綱（發放用）",
+      "description": "課程大綱的 Word 版本。",
+      "file_type": "Word（DOCX）",
+      "filename": "1-00.1151資訊組織課程大綱_發放用.docx",
+      "status": "planned",
+      "note": "Dropbox 分享連結待提供。"
+    },
+    {
+      "title": "1151 資訊組織課程大綱（發放用）",
+      "description": "課程大綱的 PDF 版本。",
+      "file_type": "PDF",
+      "filename": "1-00.1151資訊組織課程大綱_發放用.pdf",
+      "status": "planned",
+      "note": "Dropbox 分享連結待提供。"
+    },
+    {
+      "title": "資訊組織課程簡介",
+      "description": "課程簡介的 PDF 版本。",
+      "file_type": "PDF",
+      "filename": "1-00.資訊組織課程簡介260904.pdf",
+      "status": "planned",
+      "note": "Dropbox 分享連結待提供。"
+    },
+    {
+      "title": "資訊組織課程簡介",
+      "description": "課程簡介的 PowerPoint 版本。",
+      "file_type": "PowerPoint（PPTX）",
+      "filename": "1-00.資訊組織課程簡介260904.pptx",
+      "status": "planned",
+      "note": "Dropbox 分享連結待提供。"
     }
   ],
   "supplements": []

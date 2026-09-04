@@ -84,7 +84,8 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 ```json
 {
   "unit": 0,
-  "title": "第 0 單元",
+  "code": "1-00",
+  "title": "課程介紹",
   "description": "單元說明",
   "updated": "2026-09-04",
   "materials": [],
@@ -92,7 +93,7 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 }
 ```
 
-`updated` 可省略；如有值，必須使用 `YYYY-MM-DD`。每門課至少要有 `unit-00.json`。
+`code` 是顯示給學生的課程內單元編碼，例如 `1-00`、`1-01`；未提供時才直接顯示 `title`。`updated` 可省略；如有值，必須使用 `YYYY-MM-DD`。每門課至少要有 `unit-00.json`。
 
 ### Material
 
@@ -108,7 +109,22 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 }
 ```
 
-`title`、`description`、`file_type` 與 `dropbox_url` 為必填。`dropbox_url` 必須是 HTTPS Dropbox 網址。`updated`、`note` 與 `is_demo` 可省略。正式教材不得設為 `is_demo: true`。
+`title`、`description` 與 `file_type` 為必填。可開啟的教材預設為 `status: "available"`，此時 `dropbox_url` 必填且必須是 HTTPS Dropbox 網址。`filename`、`updated`、`note`、`status` 與 `is_demo` 可省略。正式教材不得設為 `is_demo: true`。
+
+若已知教材名稱與格式、但尚未取得 Dropbox 連結，可先建立預計教材：
+
+```json
+{
+  "title": "資訊組織課程簡介",
+  "description": "課程簡介的 PowerPoint 版本。",
+  "file_type": "PowerPoint（PPTX）",
+  "filename": "1-00.資訊組織課程簡介260904.pptx",
+  "status": "planned",
+  "note": "Dropbox 分享連結待提供。"
+}
+```
+
+`planned` 教材不得設定 `dropbox_url`；頁面會朗讀並顯示「Dropbox 連結尚未提供」，且不產生無效連結。取得分享連結後，移除 `status` 或改為 `available`，並加入 `dropbox_url`。
 
 ### Supplement
 
@@ -142,7 +158,7 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 ### Add teaching material or update a Dropbox link
 
 1. 只編輯正確的 `unit-XX.json`。
-2. 將 metadata 加到 `materials`；不把教材檔案複製到 repository。
+2. 將 metadata 加到 `materials`；若連結尚未取得，使用 `status: "planned"`。不把教材檔案複製到 repository。
 3. 正式上線前，移除對應的示範 material，或改成完整的正式資料。
 4. 執行 `npm run ci`，並手動開啟 Dropbox 連結確認權限與內容。
 

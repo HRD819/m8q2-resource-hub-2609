@@ -87,7 +87,7 @@
 
 **Status:** Accepted for MVP placeholders
 
-在未取得正式教材 Dropbox 分享連結前，依使用者提供的 Demo，在目前兩門課第 0 至第 2 單元各放置一個清楚標示為「示範／待替換」的 Dropbox 連結，用於驗證鍵盤、螢幕閱讀器與外部連結流程。示範項目不得被描述為正式教材，也不得在 repository 內加入教材檔案。
+在未取得正式教材 Dropbox 分享連結前，示範項目必須清楚標示為「示範／待替換」，用於驗證鍵盤、螢幕閱讀器與外部連結流程。當課程已提供實際教材架構但尚無分享連結時，移除該課程的示範項目，改以 `status: planned` 登錄教材名稱與格式，不產生假連結。示範項目不得被描述為正式教材，也不得在 repository 內加入教材檔案。
 
 ## ADR-010 — Guard production publication until content and manual QA are ready
 
