@@ -2,7 +2,59 @@
   "unit": 0,
   "code": "1-00",
   "title": "課程介紹",
-  "description": "本單元的正式說明待教師補充。",
+  "description": "課程介紹。",
+  "description_items": [
+    {
+      "text": "上課會發給同學紙本的課程大綱",
+      "links": [
+        {
+          "label": "1151 參考資源課程大綱（發放用）",
+          "url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AALZnc0dqPhXTY7eMyhOZ3U/1-00.1151%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E8%AA%B2%E7%A8%8B%E5%A4%A7%E7%B6%B1_%E7%99%BC%E6%94%BE%E7%94%A8.pdf?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1"
+        }
+      ]
+    },
+    {
+      "text": "實際上課解說會用PPT",
+      "links": [
+        {
+          "label": "參考資源課程簡介",
+          "url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AH126RM-4_9NMdqJAz9MgVQ/1-00.%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E8%AA%B2%E7%A8%8B%E7%B0%A1%E4%BB%8B260904.pptx?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1"
+        }
+      ]
+    },
+    {
+      "text": "開啟網頁操作示範TronClass內課程的內容跟結構，網址：",
+      "links": [
+        {
+          "label": "輔大 TronClass",
+          "url": "https://elearn2.fju.edu.tw/"
+        }
+      ]
+    },
+    {
+      "text": "也會同時操作說明如何查找到輔大的TronClass、輔大網頁上的一些資源的查找"
+    },
+    {
+      "text": "解說作業一的內容，並且開啟多個網頁示範說明輔大圖書館的基本資料查找"
+    },
+    {
+      "text": "網頁資源：",
+      "links": [
+        {
+          "label": "輔大首頁",
+          "url": "https://www.fju.edu.tw/#&panel1-1"
+        },
+        {
+          "label": "輔大圖書館網頁",
+          "url": "https://home.lib.fju.edu.tw/TC/"
+        },
+        {
+          "label": "輔大圖資系網頁",
+          "url": "https://web.lins.fju.edu.tw/chi/"
+        }
+      ]
+    }
+  ],
   "materials": [
     {
       "title": "1151 參考資源課程大綱（發放用）",
@@ -40,18 +92,11 @@
   "activities": [
     {
       "title": "作業一",
-      "type": "作業",
-      "description": "請依課程進度完成題目。",
+      "type": "Google文件檔(唯讀)",
+      "description": "請開啟google文件後，依據檔案/下載/Microsoft Word (.docx)的路徑自行下載檔案編輯。",
       "url": "https://docs.google.com/document/d/1xcdgz-_pq9iXxC4o3KwwMq0i_V9D3yYAdMPvyT-gmfI/edit?tab=t.0",
       "url_label": "開啟作業一題目 Google 文件",
-      "deadline": "11 月 13 日上課前完成所有題目；當日繳交。",
-      "submission": "紙本及電子檔均需繳交：當日繳交紙本並上傳電子檔。",
-      "instructions": [
-        "請依課程進度完成題目。",
-        "請保留題目，並將紅色字部分刪除。",
-        "題目可能會陸續增加，請將所有題目合併為一個檔案。",
-        "紙本及電子檔均需繳交，只交其中一份者該項作業得分扣 30 分。"
-      ]
+      "deadline": "11 月 13 日上課前完成所有題目，繳交紙本並上傳電子檔至TronClass。"
     }
   ],
   "supplements": []

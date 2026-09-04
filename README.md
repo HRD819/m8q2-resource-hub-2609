@@ -78,11 +78,13 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 }
 ```
 
-`slug` 必須與資料夾名稱相同，且只使用小寫英文、數字與連字號。`order` 決定首頁及主要導覽順序。`textbooks` 可省略；有資料時會在課程頁、單元清單之前產生「教科書」段落。
+`slug` 必須與資料夾名稱相同，且只使用小寫英文、數字與連字號。`order` 決定首頁及主要導覽順序。`course_note` 可省略；有資料時會顯示在課程頁首的課程描述下方。`textbooks` 可省略；有資料時會在課程內容清單中與單元同層級顯示，點入各自的教科書頁面才列出書目、連結與使用說明。
 
 `site.json` 的可選 `course_notice` 會顯示在每一門課程頁的頁首區域，適合放置課程平台公告與正式資訊來源。其 `text` 與 `url` 必填，網址必須是 HTTPS；目前聲明指向輔大 TronClass。
 
-`course.json` 的 `materials_note` 可省略；有資料時會在教科書段落後、單元清單前顯示課程教材取得方式的補充說明。
+`course.json` 的 `materials_note` 可省略；有資料時會在課程內容清單前顯示課程教材取得方式的補充說明。
+
+每筆教科書包含必要的 `title`、`slug`、`citation`、`links` 與 `note`；`slug` 只使用小寫英文、數字與連字號，並決定穩定頁面路徑 `textbook-<slug>/`。`call_number` 可省略。
 
 ### Textbook
 
@@ -117,6 +119,8 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 ```
 
 `code` 是顯示給學生的課程內單元編碼，例如 `1-00`、`1-01`；未提供時才直接顯示 `title`。`updated` 可省略；如有值，必須使用 `YYYY-MM-DD`。每門課至少要有 `unit-00.json`。
+
+單元的 `description` 為簡短說明；`description_items` 可省略，若有提供則以有序清單呈現。每筆清單包含 `text`，並可用 `links` 陣列加入具體的 HTTPS 連結（例如課程檔案、TronClass 或校方資源）。
 
 `activities` 可省略；有資料時會在單元的教材下載後顯示「作業與學習活動」區段。若已知單元預計有作業但題目尚未整理，可使用 `activities_note` 顯示待提供狀態。每筆活動包含 `title`、`type`、`description`、`url`、`url_label` 與 `instructions`；`deadline`、`submission` 可用來呈現期限與繳交方式。活動連結須使用 HTTPS，作業規則請拆成有順序的說明項目。
 
@@ -190,7 +194,7 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 ### Add an assignment or learning activity
 
 1. 在正確的 `unit-XX.json` 加入 `activities` 陣列。
-2. 填寫活動題目連結、期限、繳交方式與逐項規則；連結文字要直接說明目的，例如「開啟作業一題目 Google 文件」。
+2. 填寫活動題目連結、期限與繳交方式；若有逐項規則再加入 `instructions` 陣列。連結文字要直接說明目的，例如「開啟作業一題目 Google 文件」。
 3. 執行 `npm run ci`，確認活動區段與連結文字通過檢查。
 
 首頁「最近更新」由單元或正式教材的 `updated` 自動產生；示範項目不列入。

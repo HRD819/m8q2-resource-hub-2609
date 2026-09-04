@@ -18,16 +18,34 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.deepEqual(courses[0].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6]);
   assert.deepEqual(courses[0].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06"]);
   assert.equal(courses[0].textbooks.length, 3);
+  assert.deepEqual(courses[0].textbooks.map((textbook) => textbook.slug), [
+    "information-organization",
+    "chinese-cataloging-rules-third-edition",
+    "learn-descriptive-cataloging",
+  ]);
+  assert.equal(courses[0].course_note, "1-01單元以後的課程內容都有在TronClass提供pdf檔,此處額外提供可編輯的檔案，因此一樣的檔案會有2種檔案格式");
   assert.equal(courses[0].units[0].code, "1-00");
+  assert.equal(courses[0].units[0].description_items.length, 5);
   assert.equal(courses[1].textbooks.length, 1);
+  assert.equal(courses[1].textbooks[0].slug, "reference-resources-and-services");
+  assert.equal(courses[1].course_note, "1-01單元以後的課程內容都有在TronClass提供pdf檔,此處額外提供可編輯的檔案，因此一樣的檔案會有2種檔案格式");
   assert.equal(courses[1].materials_note, "其餘使用的教材則為老師自編的講義，可在 TronClass 下載。");
   assert.equal(courses[1].units[0].code, "1-00");
   assert.equal(courses[1].units[0].title, "課程介紹");
   assert.equal(courses[1].units[0].activities.length, 1);
   assert.equal(courses[1].units[0].activities[0].title, "作業一");
+  assert.equal(courses[1].units[0].activities[0].type, "Google文件檔(唯讀)");
+  assert.equal(courses[1].units[0].activities[0].deadline, "11 月 13 日上課前完成所有題目，繳交紙本並上傳電子檔至TronClass。");
+  assert.equal(courses[1].units[0].activities[0].instructions, undefined);
+  assert.equal(courses[1].units[0].description_items.length, 6);
   assert.equal(courses[1].units[3].activities_note, "本單元預計有數個線上作業；題目、連結與繳交方式待提供。");
   assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
   assert.deepEqual(courses[1].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06", "1-07", "1-08"]);
+  for (const course of courses) {
+    for (const unit of course.units) {
+      assert.doesNotMatch(unit.description, /正式文字說明待補|正式文字說明待教師補充|本單元為課程介紹；正式文字說明待補/);
+    }
+  }
 });
 
 test("正式教材提供個別 Dropbox 下載網址，未上傳教材維持 planned", async () => {

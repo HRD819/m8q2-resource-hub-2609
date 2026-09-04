@@ -3,8 +3,11 @@
   "title": "參考資源",
   "slug": "1151-reference-resources",
   "description": "115 學年度第 1 學期「參考資源」課程教材與相關資源。",
+  "course_note": "1-01單元以後的課程內容都有在TronClass提供pdf檔,此處額外提供可編輯的檔案，因此一樣的檔案會有2種檔案格式",
   "textbooks": [
     {
+      "title": "參考資源與服務",
+      "slug": "reference-resources-and-services",
       "citation": "張淳淳等編著（2003）。參考資源與服務。臺北縣：空大。",
       "links": [
         {

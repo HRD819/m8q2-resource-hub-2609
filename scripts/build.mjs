@@ -28,6 +28,10 @@ function unitLabel(unit) {
   return unit.code ? `${unit.code} ${unit.title}` : unit.title;
 }
 
+function textbookPath(textbook) {
+  return `textbook-${textbook.slug}`;
+}
+
 function renderRecentUpdates() {
   const updates = [];
   for (const course of courses) {
@@ -90,20 +94,12 @@ function renderHome() {
   return renderLayout({ site, courses, context: "home", pageTitle: site.title, description: site.purpose, body });
 }
 
-function renderTextbooks(textbooks) {
-  return `<ol class="textbook-list">
-          ${textbooks.map((textbook) => `<li>
-            <p class="citation">${escapeHtml(textbook.citation)}</p>
-            <ul class="textbook-links">
-              ${textbook.links.map((link) => `<li><a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a></li>`).join("\n              ")}
-            </ul>
-            ${textbook.call_number ? `<p><strong>館藏索書號：</strong>${escapeHtml(textbook.call_number)}</p>` : ""}
-            <p><strong>使用說明：</strong>${escapeHtml(textbook.note)}</p>
-          </li>`).join("\n          ")}
-        </ol>`;
-}
-
 function renderCourse(course) {
+  const textbookCards = (course.textbooks ?? []).map((textbook) => `<li class="card textbook-card">
+            <p class="card-kicker">教科書</p>
+            <h3><a href="${escapeHtml(`${textbookPath(textbook)}/`)}">${escapeHtml(textbook.title)}</a></h3>
+            <p>點入查看書目、電子書連結與使用說明。</p>
+          </li>`);
   const unitCards = course.units.map((unit) => {
     const registeredMaterials = unit.materials.filter((material) => !material.is_demo);
     const availableCount = registeredMaterials.filter((material) => material.status !== "planned").length;
@@ -116,7 +112,8 @@ function renderCourse(course) {
       countText += "。";
     }
     return `<li class="card">
-            <h2><a href="${unitPath(unit.unit)}/">${escapeHtml(unitLabel(unit))}</a></h2>
+            <p class="card-kicker">課程單元</p>
+            <h3><a href="${unitPath(unit.unit)}/">${escapeHtml(unitLabel(unit))}</a></h3>
             <p>${escapeHtml(unit.description)}</p>
             <p>${escapeHtml(countText)}</p>
           </li>`;
@@ -132,15 +129,12 @@ function renderCourse(course) {
       </aside>` : ""}
       <h1>${escapeHtml(`${course.semester} ${course.title}`)}</h1>
       <p class="lede">${escapeHtml(course.description)}</p>
-      ${course.textbooks?.length ? `<section aria-labelledby="textbooks-heading">
-        <h2 id="textbooks-heading">教科書</h2>
-        ${renderTextbooks(course.textbooks)}
-      </section>` : ""}
+      ${course.course_note ? `<p class="course-content-note">${escapeHtml(course.course_note)}</p>` : ""}
       ${course.materials_note ? `<p class="course-materials-note"><strong>教材說明：</strong>${escapeHtml(course.materials_note)}${site.course_notice ? ` <a href="${escapeHtml(site.course_notice.url)}">前往 TronClass 下載講義</a>` : ""}</p>` : ""}
-      <section aria-labelledby="units-heading">
-        <h2 id="units-heading" class="visually-hidden">課程單元</h2>
+      <section aria-labelledby="course-content-heading">
+        <h2 id="course-content-heading">課程內容</h2>
         <ul class="card-list unit-list">
-          ${unitCards}
+          ${[...textbookCards, unitCards].join("\n          ")}
         </ul>
       </section>
     </main>`;
@@ -151,6 +145,37 @@ function renderCourse(course) {
     currentSlug: course.slug,
     pageTitle: `${course.semester} ${course.title}`,
     description: course.description,
+    body,
+  });
+}
+
+function renderTextbook(course, textbook) {
+  const courseLabel = `${course.semester} ${course.title}`;
+  const body = `<main id="main-content" class="page-shell">
+      ${renderBreadcrumb([
+        { label: "首頁", href: "../../" },
+        { label: courseLabel, href: "../" },
+        { label: `教科書：${textbook.title}` },
+      ])}
+      <h1>${escapeHtml(`${courseLabel}：教科書｜${textbook.title}`)}</h1>
+      <section aria-labelledby="textbook-details-heading">
+        <h2 id="textbook-details-heading">教科書內容</h2>
+        <p class="citation"><strong>書目：</strong>${escapeHtml(textbook.citation)}</p>
+        <h3>電子版與相關連結</h3>
+        <ul class="textbook-links">
+          ${textbook.links.map((link) => `<li><a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a></li>`).join("\n          ")}
+        </ul>
+        ${textbook.call_number ? `<p><strong>館藏索書號：</strong>${escapeHtml(textbook.call_number)}</p>` : ""}
+        <p><strong>使用說明：</strong>${escapeHtml(textbook.note)}</p>
+      </section>
+    </main>`;
+  return renderLayout({
+    site,
+    courses,
+    context: "textbook",
+    currentSlug: course.slug,
+    pageTitle: `${courseLabel}：教科書｜${textbook.title}`,
+    description: `${textbook.citation} ${textbook.note}`,
     body,
   });
 }
@@ -187,6 +212,14 @@ function renderSupplements(supplements) {
         </ul>`;
 }
 
+function renderUnitDescription(unit) {
+  const items = unit.description_items ?? [];
+  const list = items.length === 0 ? "" : `<ol class="unit-description-list">
+          ${items.map((item) => `<li>${escapeHtml(item.text)}${item.links?.length ? ` <span class="description-links">${item.links.map((link, index) => `${index > 0 ? "、" : ""}<a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a>`).join("")}</span>` : ""}</li>`).join("\n          ")}
+        </ol>`;
+  return `<p>${escapeHtml(unit.description)}</p>${list}`;
+}
+
 function renderActivities(activities) {
   if (activities.length === 0) return "";
   return `<ul class="activity-list">
@@ -199,10 +232,10 @@ function renderActivities(activities) {
               ${activity.deadline ? `<div><dt>完成期限</dt><dd>${escapeHtml(activity.deadline)}</dd></div>` : ""}
               ${activity.submission ? `<div><dt>繳交方式</dt><dd>${escapeHtml(activity.submission)}</dd></div>` : ""}
             </dl>
-            <p><strong>作業要求：</strong></p>
+            ${activity.instructions?.length ? `<p><strong>作業要求：</strong></p>
             <ol>
               ${activity.instructions.map((instruction) => `<li>${escapeHtml(instruction)}</li>`).join("\n              ")}
-            </ol>
+            </ol>` : ""}
           </li>`).join("\n          ")}
         </ul>`;
 }
@@ -218,7 +251,7 @@ function renderUnit(course, unit) {
       <h1>${escapeHtml(`${courseLabel}：${unitLabel(unit)}`)}</h1>
       <section aria-labelledby="unit-description-heading">
         <h2 id="unit-description-heading">單元說明</h2>
-        <p>${escapeHtml(unit.description)}</p>
+        ${renderUnitDescription(unit)}
       </section>
       <section aria-labelledby="materials-heading">
         <h2 id="materials-heading">教材下載</h2>
@@ -249,6 +282,9 @@ await rm(outputRoot, { recursive: true, force: true });
 await writeOutput("index.html", renderHome());
 for (const course of courses) {
   await writeOutput(path.join(course.slug, "index.html"), renderCourse(course));
+  for (const textbook of course.textbooks ?? []) {
+    await writeOutput(path.join(course.slug, textbookPath(textbook), "index.html"), renderTextbook(course, textbook));
+  }
   for (const unit of course.units) {
     await writeOutput(path.join(course.slug, unitPath(unit.unit), "index.html"), renderUnit(course, unit));
   }
@@ -294,12 +330,13 @@ h3 { font-size: 1.2rem; }
 .course-notice { margin: 0 0 1.5rem; border: 0.125rem solid var(--accent); border-radius: 0.5rem; padding: 1rem 1.25rem; background: #eef6ff; }
 .course-notice p { margin: 0; }
 .course-notice p + p { margin-top: 0.75rem; }
-.course-materials-note { margin: 1.5rem 0 0; border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
+.course-content-note, .course-materials-note { margin: 1.5rem 0 0; border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
 .breadcrumb ol { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
 .breadcrumb li:not(:last-child)::after { margin-left: 0.35rem; content: "/"; color: var(--muted); }
 .card-list, .material-list, .resource-list { margin: 1rem 0 0; padding: 0; list-style: none; }
 .card-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
 .card, .material-card, .resource-list > li, .textbook-list > li { border: 0.125rem solid var(--border); border-radius: 0.5rem; padding: 1rem 1.25rem; background: var(--surface); }
+.card-kicker { margin: 0 0 0.35rem; color: var(--muted); font-weight: 750; }
 .card h2, .card h3, .material-card h3, .resource-list h3 { margin-top: 0; }
 .material-list { display: grid; gap: 1.25rem; }
 .activity-list { display: grid; gap: 1.25rem; margin: 1rem 0 0; padding: 0; list-style: none; }
@@ -307,6 +344,9 @@ h3 { font-size: 1.2rem; }
 .activity-list h3 { margin-top: 0; }
 .activity-link { display: inline-block; font-weight: 750; }
 .activity-note { border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
+.unit-description-list { margin: 1rem 0; padding-left: 1.5rem; }
+.unit-description-list li + li { margin-top: 0.7rem; }
+.description-links { display: inline; }
 .textbook-list { display: grid; gap: 1.25rem; margin: 1rem 0 0; padding-left: 2rem; }
 .textbook-list > li { padding-left: 1.5rem; }
 .textbook-list p:first-child { margin-top: 0; }
@@ -345,5 +385,5 @@ h3 { font-size: 1.2rem; }
 await writeOutput("assets/styles.css", css);
 await writeOutput(".nojekyll", "");
 
-const pageCount = 1 + courses.length + courses.reduce((count, course) => count + course.units.length, 0);
+const pageCount = 1 + courses.length + courses.reduce((count, course) => count + (course.textbooks?.length ?? 0) + course.units.length, 0);
 console.log(`建置完成：${pageCount} 個 HTML 頁面已輸出至 dist。`);

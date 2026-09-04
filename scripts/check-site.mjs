@@ -43,7 +43,7 @@ async function checkInternalLink(file, href, label) {
 }
 
 const htmlFiles = await listHtmlFiles(outputRoot);
-const expectedCount = 1 + courses.length + courses.reduce((count, course) => count + course.units.length, 0);
+const expectedCount = 1 + courses.length + courses.reduce((count, course) => count + (course.textbooks?.length ?? 0) + course.units.length, 0);
 if (htmlFiles.length !== expectedCount) errors.push(`dist: 預期 ${expectedCount} 個 HTML，實際為 ${htmlFiles.length} 個。`);
 
 for (const file of htmlFiles) {
@@ -77,6 +77,7 @@ for (const file of htmlFiles) {
 for (const course of courses) {
   const expected = [
     path.join(outputRoot, course.slug, "index.html"),
+    ...(course.textbooks ?? []).map((textbook) => path.join(outputRoot, course.slug, `textbook-${textbook.slug}`, "index.html")),
     ...course.units.map((unit) => path.join(outputRoot, course.slug, `unit-${String(unit.unit).padStart(2, "0")}`, "index.html")),
   ];
   for (const file of expected) {

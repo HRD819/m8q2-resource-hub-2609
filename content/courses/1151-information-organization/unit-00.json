@@ -2,7 +2,52 @@
   "unit": 0,
   "code": "1-00",
   "title": "課程介紹",
-  "description": "本單元為課程介紹；正式文字說明待補。",
+  "description": "課程介紹。",
+  "description_items": [
+    {
+      "text": "上課會發給同學紙本的課程大綱",
+      "links": [
+        {
+          "label": "1151 資訊組織課程大綱（發放用）",
+          "url": "https://www.dropbox.com/scl/fo/hh2vm7m9g4dae8lb6b9h5/ANDCfZQk9Os_p4wOdz2MhCU/1-00.1151%E8%B3%87%E8%A8%8A%E7%B5%84%E7%B9%94%E8%AA%B2%E7%A8%8B%E5%A4%A7%E7%B6%B1_%E7%99%BC%E6%94%BE%E7%94%A8.pdf?rlkey=hqvuoegv9g4xzim0iyerlkfs9&dl=1"
+        }
+      ]
+    },
+    {
+      "text": "實際上課解說會用PPT",
+      "links": [
+        {
+          "label": "資訊組織課程簡介",
+          "url": "https://www.dropbox.com/scl/fo/hh2vm7m9g4dae8lb6b9h5/AEuLivnKsCEOrl1nyoOzUY8/1-00.%E8%B3%87%E8%A8%8A%E7%B5%84%E7%B9%94%E8%AA%B2%E7%A8%8B%E7%B0%A1%E4%BB%8B260904.pptx?rlkey=hqvuoegv9g4xzim0iyerlkfs9&dl=1"
+        }
+      ]
+    },
+    {
+      "text": "開啟網頁操作示範TronClass內課程的內容跟結構，網址：",
+      "links": [
+        {
+          "label": "輔大 TronClass",
+          "url": "https://elearn2.fju.edu.tw/"
+        }
+      ]
+    },
+    {
+      "text": "也會同時操作說明如何查找到輔大的TronClass、輔大網頁上的一些資源的查找"
+    },
+    {
+      "text": "網頁資源：",
+      "links": [
+        {
+          "label": "輔大首頁",
+          "url": "https://www.fju.edu.tw/#&panel1-1"
+        },
+        {
+          "label": "輔大圖資系網頁",
+          "url": "https://web.lins.fju.edu.tw/chi/"
+        }
+      ]
+    }
+  ],
   "materials": [
     {
       "title": "1151 資訊組織課程大綱（發放用）",

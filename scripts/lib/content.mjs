@@ -35,6 +35,29 @@ function validateDate(value, location, errors) {
   }
 }
 
+function validateDescriptionItems(items, location, errors) {
+  if (!Array.isArray(items)) {
+    errors.push(`${location}: description_items 必須是 array。`);
+    return;
+  }
+  items.forEach((item, index) => {
+    const itemLocation = `${location}.description_items[${index}]`;
+    if (!requireObject(item, itemLocation, errors)) return;
+    requireString(item, "text", itemLocation, errors);
+    if (item.links === undefined) return;
+    if (!Array.isArray(item.links)) {
+      errors.push(`${itemLocation}: links 如有提供，必須是 array。`);
+      return;
+    }
+    item.links.forEach((link, linkIndex) => {
+      const linkLocation = `${itemLocation}.links[${linkIndex}]`;
+      if (!requireObject(link, linkLocation, errors)) return;
+      for (const field of ["label", "url"]) requireString(link, field, linkLocation, errors);
+      if (typeof link.url === "string" && link.url.trim()) validateHttpsUrl(link.url, linkLocation, errors);
+    });
+  });
+}
+
 function validateDropboxUrl(value, location, errors) {
   try {
     const url = new URL(value);
@@ -71,7 +94,10 @@ function validateTextbooks(textbooks, location, errors) {
   textbooks.forEach((textbook, index) => {
     const itemLocation = `${location}.textbooks[${index}]`;
     if (!requireObject(textbook, itemLocation, errors)) return;
-    for (const field of ["citation", "note"]) requireString(textbook, field, itemLocation, errors);
+    for (const field of ["title", "slug", "citation", "note"]) requireString(textbook, field, itemLocation, errors);
+    if (typeof textbook.slug === "string" && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(textbook.slug)) {
+      errors.push(`${itemLocation}: slug 只能使用小寫英文、數字與單一連字號。`);
+    }
     if (textbook.call_number !== undefined && (typeof textbook.call_number !== "string" || textbook.call_number.trim() === "")) {
       errors.push(`${itemLocation}: call_number 如有提供，必須是非空白字串。`);
     }
@@ -162,9 +188,9 @@ function validateActivities(activities, location, errors) {
         errors.push(`${itemLocation}: ${field} 如有提供，必須是非空白字串。`);
       }
     }
-    if (!Array.isArray(activity.instructions) || activity.instructions.length === 0) {
-      errors.push(`${itemLocation}: instructions 必須是至少含一項說明的 array。`);
-    } else {
+    if (activity.instructions !== undefined && !Array.isArray(activity.instructions)) {
+      errors.push(`${itemLocation}: instructions 如有提供，必須是 array。`);
+    } else if (Array.isArray(activity.instructions)) {
       activity.instructions.forEach((instruction, instructionIndex) => {
         if (typeof instruction !== "string" || instruction.trim() === "") {
           errors.push(`${itemLocation}.instructions[${instructionIndex}]: 必須是非空白字串。`);
@@ -214,7 +240,12 @@ export async function loadContent(contentRoot) {
       if (typeof course.slug === "string" && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(course.slug)) {
         errors.push(`${courseLocation}: slug 只能使用小寫英文、數字與單一連字號。`);
       }
-      if (course.textbooks !== undefined) validateTextbooks(course.textbooks, courseLocation, errors);
+      if (course.textbooks !== undefined) {
+        validateTextbooks(course.textbooks, courseLocation, errors);
+        const textbookSlugs = course.textbooks.map((textbook) => textbook.slug).filter(Boolean);
+        if (new Set(textbookSlugs).size !== textbookSlugs.length) errors.push(`${courseLocation}: textbook slug 不得重複。`);
+      }
+      if (course.course_note !== undefined) requireString(course, "course_note", courseLocation, errors);
       if (course.materials_note !== undefined) requireString(course, "materials_note", courseLocation, errors);
     }
 
@@ -232,6 +263,7 @@ export async function loadContent(contentRoot) {
         if (!Number.isInteger(unit.unit) || unit.unit < 0) errors.push(`${unitLocation}: unit 必須是非負整數。`);
         requireString(unit, "title", unitLocation, errors);
         requireString(unit, "description", unitLocation, errors);
+        if (unit.description_items !== undefined) validateDescriptionItems(unit.description_items, unitLocation, errors);
         if (unit.code !== undefined && (typeof unit.code !== "string" || unit.code.trim() === "")) {
           errors.push(`${unitLocation}: code 如有提供，必須是非空白字串。`);
         }

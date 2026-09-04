@@ -3,8 +3,11 @@
   "title": "資訊組織",
   "slug": "1151-information-organization",
   "description": "115 學年度第 1 學期「資訊組織」課程教材與相關資源。",
+  "course_note": "1-01單元以後的課程內容都有在TronClass提供pdf檔,此處額外提供可編輯的檔案，因此一樣的檔案會有2種檔案格式",
   "textbooks": [
     {
+      "title": "資訊組織",
+      "slug": "information-organization",
       "citation": "張慧銖、邱子恒、陳淑君、陳淑燕（2017）。資訊組織。新北市：華藝。",
       "links": [
         {
@@ -16,6 +19,8 @@
       "note": "此書為整學年使用，建議同學手邊有一本紙本書，方便準備考試；若習慣使用電子書也可以。"
     },
     {
+      "title": "中國編目規則（第三版）",
+      "slug": "chinese-cataloging-rules-third-edition",
       "citation": "圖書館自動化作業規劃委員會中國編目規則編訂小組編訂，中國圖書館學會分類編目委員會修訂（民國 94 年）。中國編目規則（第三版）。臺北市：中國圖書館學會。",
       "links": [
         {
@@ -26,6 +31,8 @@
       "note": "此書大約在上學期 10 月之後使用。請同學務必取得紙本，一定要找第三版，頁碼才會一致，並請保留前面的目次。這是工具書，使用過程會前後翻閱對照，攜帶紙本才能跟上課程進度。"
     },
     {
+      "title": "Learn descriptive cataloging",
+      "slug": "learn-descriptive-cataloging",
       "citation": "Mortimer, M. (2007). Learn descriptive cataloging (2nd North American ed.). TotalRecall Publications.",
       "links": [
         {

@@ -16,18 +16,21 @@ export function formatDate(value) {
 function courseHref(context, currentSlug, targetSlug) {
   if (context === "home") return `${targetSlug}/`;
   if (context === "course") return targetSlug === currentSlug ? "./" : `../${targetSlug}/`;
+  if (context === "textbook") return targetSlug === currentSlug ? "../" : `../../${targetSlug}/`;
   return targetSlug === currentSlug ? "../" : `../../${targetSlug}/`;
 }
 
 function homeHref(context) {
   if (context === "home") return "./";
   if (context === "course") return "../";
+  if (context === "textbook") return "../../";
   return "../../";
 }
 
 function assetHref(context) {
   if (context === "home") return "assets/styles.css";
   if (context === "course") return "../assets/styles.css";
+  if (context === "textbook") return "../../assets/styles.css";
   return "../../assets/styles.css";
 }
 

@@ -96,3 +96,15 @@
 Pull request 與 `main` push 一律執行品質檢查，但 production deploy 預設不因 push 自動發生。只有人工執行 workflow，或明確設定 repository variable `PUBLISH_PAGES=true`，才允許上傳與部署 Pages artifact。
 
 **Reason:** MVP 目前仍使用 Dropbox 示範連結，keyboard、NVDA、responsive visual、axe 與 Lighthouse 人工／瀏覽器層驗收尚未完成。這個 gate 可保留 GitHub Actions 為正式部署途徑，同時避免未完成內容被意外發布。
+
+## ADR-011 — Textbook detail pages at the same navigation level as units
+
+**Status:** Accepted
+
+課程頁將教科書與單元放在同一個「課程內容」清單中；每本教科書使用獨立的 `textbook-<slug>/` 穩定網址，點入後才顯示書目、電子版連結、索書號與使用說明。
+
+**Reason:**
+
+- 課程頁維持簡潔，學生可先選擇教科書或單元，再閱讀詳細內容。
+- 教科書與單元使用一致的卡片與 heading 層級，降低螢幕閱讀器重新理解介面的負擔。
+- `title`／`slug` 由結構化內容維護，避免依陣列順序產生不穩定網址。
