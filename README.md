@@ -233,7 +233,7 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 4. 完成正式教材替換與人工驗收後，先以 **Actions → 品質檢查與 GitHub Pages 部署 → Run workflow** 做第一次發布；若之後要讓每次 `main` push 自動發布，再建立 repository variable `PUBLISH_PAGES`，值設為 `true`。
 5. 確認 workflow 的品質與部署 jobs 成功，再用直接網址檢查首頁、課程頁、單元頁與 Dropbox 連結，並依 `ACCESSIBILITY_TESTING.md` 完成正式站複核。
 
-目前本機已有 `main` branch、低可猜性遠端 `origin` 與初始提交；但尚未確認遠端 `main`、repository 可見性、Pages 設定或正式 workflow 結果。不得把本機建置通過解讀為已公開部署。
+首次發布已完成：提交 `04687d2` 已推送至 `main`，GitHub Actions run `33873532088` 的品質檢查與 Pages 部署均成功。正式網址為 <https://hrd819.github.io/m8q2-resource-hub-2609/>；若在本機驗收時無法連線，請先確認網路 DNS，再依 `ACCESSIBILITY_TESTING.md` 完成正式網址、Dropbox 與 NVDA 流程複核。
 
 ## Demo reference
 

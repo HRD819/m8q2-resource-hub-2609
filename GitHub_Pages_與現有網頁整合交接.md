@@ -125,6 +125,14 @@ npm run ci
 - 正式發布前必須完成 `ACCESSIBILITY_TESTING.md` 的人工鍵盤與 NVDA + Chrome 流程。
 - 仍需執行 axe、Lighthouse Accessibility、HTML validator 與多寬度視覺 QA。
 
+## 首次發布結果（2026-09-04）
+
+- 已依本文件流程將提交 `04687d2` 推送到 `main`。
+- GitHub Actions run `33873532088` 的「品質檢查」與「部署 GitHub Pages」jobs 均為 `success`。
+- GitHub Pages 正式網址：<https://hrd819.github.io/m8q2-resource-hub-2609/>；Pages API 回報 HTTPS 已啟用。
+- `PUBLISH_PAGES` 未設為自動發布；本次使用一次性 `workflow_dispatch`，後續 `main` push 仍只做品質檢查，除非使用者另行啟用自動發布。
+- 目前環境無法解析 `github.io` DNS，因此正式網址的 HTTP、Dropbox 遠端下載與視覺／NVDA 驗收仍需在一般網路與 Windows 環境完成。
+
 ## 完成定義
 
 「接上」不是把另一版 HTML 複製到 GitHub。完成時必須同時做到：
@@ -137,4 +145,3 @@ npm run ci
 - 無障礙與 `noindex` 不退步。
 - GitHub Actions 通過後才部署。
 - 正式 URL 與 Pages base path 已驗證。
-

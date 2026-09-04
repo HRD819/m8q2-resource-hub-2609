@@ -67,10 +67,10 @@
 ## Phase 5 — GitHub deployment
 - [x] 建立 GitHub Actions workflow
 - [x] build/test/check 成功後才 deploy
-- [ ] 部署到 GitHub Pages
-- [x] 驗證 Pages base path（建置輸出使用可攜式相對路徑；仍待正式網址確認）
+- [x] 部署到 GitHub Pages（首次發布 run 33873532088 成功）
+- [x] 驗證 Pages base path（正式網址已由 Pages API 確認）
 - [x] README 記錄一次性 GitHub Pages 設定
-- [ ] 驗證正式網址可由直接連結開啟
+- [ ] 驗證正式網址可由直接連結開啟（目前驗收環境 DNS 無法解析 github.io）
 
 ## Phase 6 — Quality assurance
 - [x] Production build 成功
