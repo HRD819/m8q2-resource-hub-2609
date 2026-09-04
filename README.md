@@ -80,11 +80,11 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 
 `slug` 必須與資料夾名稱相同，且只使用小寫英文、數字與連字號。`order` 決定首頁及主要導覽順序。`course_note` 可省略；有資料時會顯示在課程頁首的課程描述下方。`textbooks` 可省略；有資料時會在課程內容清單中與單元同層級顯示，點入各自的教科書頁面才列出書目、連結與使用說明。
 
-`site.json` 的可選 `course_notice` 會顯示在每一門課程頁的頁首區域，適合放置課程平台公告與正式資訊來源。其 `text` 與 `url` 必填，網址必須是 HTTPS；目前聲明指向輔大 TronClass。
+`site.json` 的可選 `course_notice` 會顯示在每一門課程頁的頁首區域，適合放置課程平台公告與正式資訊來源；`homepage_notice` 則顯示在首頁。兩者的 `text` 與 `url` 必填，網址必須是 HTTPS；目前聲明指向輔大 TronClass。
 
 `course.json` 的 `materials_note` 可省略；有資料時會在課程內容清單前顯示課程教材取得方式的補充說明。
 
-每筆教科書包含必要的 `title`、`slug`、`citation`、`links` 與 `note`；`slug` 只使用小寫英文、數字與連字號，並決定穩定頁面路徑 `textbook-<slug>/`。`call_number` 可省略。
+每筆教科書包含必要的 `title`、`slug`、`citation`、`links` 與 `note`；`slug` 只使用小寫英文、數字與連字號，並決定穩定頁面路徑 `textbook-<slug>/`。`call_number`、`card_description` 與 `card_note` 可省略；後兩者控制課程總覽卡片上的補充文字。
 
 ### Textbook
 

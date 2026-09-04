@@ -10,7 +10,10 @@ import { escapeHtml, formatDate } from "../scripts/lib/render.mjs";
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 test("目前課程包含已規劃的單元編號", async () => {
-  const { courses } = await loadContent(path.join(projectRoot, "content"));
+  const { site, courses } = await loadContent(path.join(projectRoot, "content"));
+  assert.equal(site.title, "董老師課程教材分享平台");
+  assert.equal(site.purpose, "依課程與單元查找教材取得檔案。");
+  assert.equal(site.homepage_notice.url, "https://elearn2.fju.edu.tw/");
   assert.deepEqual(courses.map((course) => course.slug), [
     "1151-information-organization",
     "1151-reference-resources",
@@ -18,6 +21,9 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.deepEqual(courses[0].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6]);
   assert.deepEqual(courses[0].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06"]);
   assert.equal(courses[0].textbooks.length, 3);
+  assert.equal(courses[0].textbooks[0].card_note, "搭配單元1-01,1-02及第二學期使用");
+  assert.equal(courses[0].textbooks[1].card_note, "搭配單元1-05使用");
+  assert.equal(courses[0].textbooks[2].card_description, "搭配單元1-06使用");
   assert.deepEqual(courses[0].textbooks.map((textbook) => textbook.slug), [
     "information-organization",
     "chinese-cataloging-rules-third-edition",
@@ -28,6 +34,7 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.equal(courses[0].units[0].description_items.length, 5);
   assert.equal(courses[1].textbooks.length, 1);
   assert.equal(courses[1].textbooks[0].slug, "reference-resources-and-services");
+  assert.equal(courses[1].textbooks[0].card_note, "主要只需要前4章，搭配單元1-01、1-02使用");
   assert.equal(courses[1].course_note, "1-01單元以後的課程內容都有在TronClass提供pdf檔,此處額外提供可編輯的檔案，因此一樣的檔案會有2種檔案格式");
   assert.equal(courses[1].materials_note, "其餘使用的教材則為老師自編的講義，可在 TronClass 下載。");
   assert.equal(courses[1].units[0].code, "1-00");
@@ -39,6 +46,7 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.equal(courses[1].units[0].activities[0].instructions, undefined);
   assert.equal(courses[1].units[0].description_items.length, 6);
   assert.equal(courses[1].units[3].activities_note, "本單元預計有數個線上作業；題目、連結與繳交方式待提供。");
+  assert.equal(courses[0].units[5].supplements[0].url, "https://www.booklife.com.tw/baike-detail/9/1279");
   assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
   assert.deepEqual(courses[1].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06", "1-07", "1-08"]);
   for (const course of courses) {

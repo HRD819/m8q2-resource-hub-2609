@@ -95,6 +95,9 @@ function validateTextbooks(textbooks, location, errors) {
     const itemLocation = `${location}.textbooks[${index}]`;
     if (!requireObject(textbook, itemLocation, errors)) return;
     for (const field of ["title", "slug", "citation", "note"]) requireString(textbook, field, itemLocation, errors);
+    for (const field of ["card_description", "card_note"]) {
+      if (textbook[field] !== undefined) requireString(textbook, field, itemLocation, errors);
+    }
     if (typeof textbook.slug === "string" && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(textbook.slug)) {
       errors.push(`${itemLocation}: slug 只能使用小寫英文、數字與單一連字號。`);
     }
@@ -216,6 +219,7 @@ export async function loadContent(contentRoot) {
   if (requireObject(site, "content/site.json", errors)) {
     for (const field of REQUIRED_SITE_FIELDS) requireString(site, field, "content/site.json", errors);
     if (site.course_notice !== undefined) validateCourseNotice(site.course_notice, "content/site.json.course_notice", errors);
+    if (site.homepage_notice !== undefined) validateCourseNotice(site.homepage_notice, "content/site.json.homepage_notice", errors);
   }
 
   const coursesRoot = path.join(contentRoot, "courses");

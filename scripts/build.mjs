@@ -75,6 +75,10 @@ function renderHome() {
   const body = `<main id="main-content" class="page-shell">
       <h1>${escapeHtml(site.title)}</h1>
       <p class="lede">${escapeHtml(site.purpose)}</p>
+      ${site.homepage_notice ? `<aside class="homepage-notice" aria-label="平台使用聲明">
+        <p>${escapeHtml(site.homepage_notice.text)}</p>
+        <p><strong>TronClass 網址：</strong><a href="${escapeHtml(site.homepage_notice.url)}">${escapeHtml(site.homepage_notice.url)}</a></p>
+      </aside>` : ""}
       <section aria-labelledby="courses-heading">
         <h2 id="courses-heading">課程</h2>
         <ul class="card-list">
@@ -98,23 +102,16 @@ function renderCourse(course) {
   const textbookCards = (course.textbooks ?? []).map((textbook) => `<li class="card textbook-card">
             <p class="card-kicker">教科書</p>
             <h3><a href="${escapeHtml(`${textbookPath(textbook)}/`)}">${escapeHtml(textbook.title)}</a></h3>
-            <p>點入查看書目、電子書連結與使用說明。</p>
+            ${textbook.card_description ? `<p>${escapeHtml(textbook.card_description)}</p>` : ""}
+            ${textbook.card_note ? `<p>${escapeHtml(textbook.card_note)}</p>` : ""}
           </li>`);
   const unitCards = course.units.map((unit) => {
     const registeredMaterials = unit.materials.filter((material) => !material.is_demo);
     const availableCount = registeredMaterials.filter((material) => material.status !== "planned").length;
-    const plannedCount = registeredMaterials.filter((material) => material.status === "planned").length;
-    let countText = "目前僅有示範內容或尚無教材";
-    if (registeredMaterials.length > 0) {
-      countText = `已登錄 ${registeredMaterials.length} 項教材資料`;
-      if (availableCount > 0) countText += `，${availableCount} 項可開啟`;
-      if (plannedCount > 0) countText += `，${plannedCount} 項待提供 Dropbox 連結`;
-      countText += "。";
-    }
+    const countText = `${availableCount} 項教材資料可開啟。`;
     return `<li class="card">
             <p class="card-kicker">課程單元</p>
             <h3><a href="${unitPath(unit.unit)}/">${escapeHtml(unitLabel(unit))}</a></h3>
-            <p>${escapeHtml(unit.description)}</p>
             <p>${escapeHtml(countText)}</p>
           </li>`;
   }).join("\n          ");
@@ -249,10 +246,10 @@ function renderUnit(course, unit) {
         { label: unitLabel(unit) },
       ])}
       <h1>${escapeHtml(`${courseLabel}：${unitLabel(unit)}`)}</h1>
-      <section aria-labelledby="unit-description-heading">
+      ${unit.unit === 0 ? `<section aria-labelledby="unit-description-heading">
         <h2 id="unit-description-heading">單元說明</h2>
         ${renderUnitDescription(unit)}
-      </section>
+      </section>` : ""}
       <section aria-labelledby="materials-heading">
         <h2 id="materials-heading">教材下載</h2>
         ${renderMaterials(unit.materials)}
@@ -327,9 +324,12 @@ h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3rem); }
 h2 { margin-top: 2.5rem; font-size: clamp(1.45rem, 3vw, 2rem); }
 h3 { font-size: 1.2rem; }
 .lede { max-width: 48rem; color: var(--muted); font-size: 1.2rem; }
-.course-notice { margin: 0 0 1.5rem; border: 0.125rem solid var(--accent); border-radius: 0.5rem; padding: 1rem 1.25rem; background: #eef6ff; }
+.course-notice, .homepage-notice { margin: 0 0 1.5rem; border: 0.125rem solid var(--accent); border-radius: 0.5rem; padding: 1rem 1.25rem; background: #eef6ff; }
+.homepage-notice { margin-top: 1.5rem; }
 .course-notice p { margin: 0; }
 .course-notice p + p { margin-top: 0.75rem; }
+.homepage-notice p { margin: 0; }
+.homepage-notice p + p { margin-top: 0.75rem; }
 .course-content-note, .course-materials-note { margin: 1.5rem 0 0; border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
 .breadcrumb ol { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
 .breadcrumb li:not(:last-child)::after { margin-left: 0.35rem; content: "/"; color: var(--muted); }

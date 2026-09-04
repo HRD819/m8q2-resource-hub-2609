@@ -70,9 +70,7 @@ export function renderLayout({ site, courses, context, currentSlug = "", pageTit
     </header>
     ${body}
     <footer class="site-footer">
-      <div class="page-shell">
-        <p>教材檔案以 Dropbox 為唯一來源。本網站只提供課程導覽、說明與連結。</p>
-      </div>
+      <div class="page-shell"></div>
     </footer>
   </body>
 </html>
