@@ -90,6 +90,19 @@ function renderHome() {
   return renderLayout({ site, courses, context: "home", pageTitle: site.title, description: site.purpose, body });
 }
 
+function renderTextbooks(textbooks) {
+  return `<ol class="textbook-list">
+          ${textbooks.map((textbook) => `<li>
+            <p class="citation">${escapeHtml(textbook.citation)}</p>
+            <ul class="textbook-links">
+              ${textbook.links.map((link) => `<li><a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a></li>`).join("\n              ")}
+            </ul>
+            ${textbook.call_number ? `<p><strong>館藏索書號：</strong>${escapeHtml(textbook.call_number)}</p>` : ""}
+            <p><strong>使用說明：</strong>${escapeHtml(textbook.note)}</p>
+          </li>`).join("\n          ")}
+        </ol>`;
+}
+
 function renderCourse(course) {
   const unitCards = course.units.map((unit) => {
     const registeredMaterials = unit.materials.filter((material) => !material.is_demo);
@@ -113,8 +126,17 @@ function renderCourse(course) {
         { label: "首頁", href: "../" },
         { label: `${course.semester} ${course.title}` },
       ])}
+      ${site.course_notice ? `<aside class="course-notice" aria-label="課程頁面使用聲明">
+        <p>${escapeHtml(site.course_notice.text)}</p>
+        <p><strong>TronClass 網址：</strong><a href="${escapeHtml(site.course_notice.url)}">${escapeHtml(site.course_notice.url)}</a></p>
+      </aside>` : ""}
       <h1>${escapeHtml(`${course.semester} ${course.title}`)}</h1>
       <p class="lede">${escapeHtml(course.description)}</p>
+      ${course.textbooks?.length ? `<section aria-labelledby="textbooks-heading">
+        <h2 id="textbooks-heading">教科書</h2>
+        ${renderTextbooks(course.textbooks)}
+      </section>` : ""}
+      ${course.materials_note ? `<p class="course-materials-note"><strong>教材說明：</strong>${escapeHtml(course.materials_note)}${site.course_notice ? ` <a href="${escapeHtml(site.course_notice.url)}">前往 TronClass 下載講義</a>` : ""}</p>` : ""}
       <section aria-labelledby="units-heading">
         <h2 id="units-heading" class="visually-hidden">課程單元</h2>
         <ul class="card-list unit-list">
@@ -149,7 +171,7 @@ function renderMaterials(materials) {
               ${material.updated ? `<div><dt>更新日期</dt><dd><time datetime="${material.updated}">${formatDate(material.updated)}</time></dd></div>` : ""}
             </dl>
             ${material.note ? `<p><strong>注意事項：</strong>${escapeHtml(material.note)}</p>` : ""}
-            ${planned ? "" : `<p><a class="material-link" href="${escapeHtml(material.dropbox_url)}">在 Dropbox 開啟${escapeHtml(material.title)}（${escapeHtml(material.file_type)}）</a></p>`}
+            ${planned ? "" : `<p><a class="material-link" href="${escapeHtml(material.dropbox_url)}">${material.is_demo ? "在 Dropbox 開啟：" : "下載："}${escapeHtml(material.title)}（${escapeHtml(material.file_type)}）</a></p>`}
           </li>`;
           }).join("\n          ")}
         </ul>`;
@@ -161,6 +183,26 @@ function renderSupplements(supplements) {
           ${supplements.map((item) => `<li>
             <h3><a href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a></h3>
             <p>${escapeHtml(item.description)}</p>
+          </li>`).join("\n          ")}
+        </ul>`;
+}
+
+function renderActivities(activities) {
+  if (activities.length === 0) return "";
+  return `<ul class="activity-list">
+          ${activities.map((activity) => `<li>
+            <h3>${escapeHtml(activity.title)}</h3>
+            <p><strong>類型：</strong>${escapeHtml(activity.type)}</p>
+            <p>${escapeHtml(activity.description)}</p>
+            <p><a class="activity-link" href="${escapeHtml(activity.url)}">${escapeHtml(activity.url_label)}</a></p>
+            <dl class="metadata">
+              ${activity.deadline ? `<div><dt>完成期限</dt><dd>${escapeHtml(activity.deadline)}</dd></div>` : ""}
+              ${activity.submission ? `<div><dt>繳交方式</dt><dd>${escapeHtml(activity.submission)}</dd></div>` : ""}
+            </dl>
+            <p><strong>作業要求：</strong></p>
+            <ol>
+              ${activity.instructions.map((instruction) => `<li>${escapeHtml(instruction)}</li>`).join("\n              ")}
+            </ol>
           </li>`).join("\n          ")}
         </ul>`;
 }
@@ -182,6 +224,11 @@ function renderUnit(course, unit) {
         <h2 id="materials-heading">教材下載</h2>
         ${renderMaterials(unit.materials)}
       </section>
+      ${unit.activities?.length || unit.activities_note ? `<section aria-labelledby="activities-heading">
+        <h2 id="activities-heading">作業與學習活動</h2>
+        ${unit.activities_note ? `<p class="activity-note">${escapeHtml(unit.activities_note)}</p>` : ""}
+        ${renderActivities(unit.activities)}
+      </section>` : ""}
       <section aria-labelledby="supplements-heading">
         <h2 id="supplements-heading">補充資料</h2>
         ${renderSupplements(unit.supplements)}
@@ -244,13 +291,28 @@ h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3rem); }
 h2 { margin-top: 2.5rem; font-size: clamp(1.45rem, 3vw, 2rem); }
 h3 { font-size: 1.2rem; }
 .lede { max-width: 48rem; color: var(--muted); font-size: 1.2rem; }
+.course-notice { margin: 0 0 1.5rem; border: 0.125rem solid var(--accent); border-radius: 0.5rem; padding: 1rem 1.25rem; background: #eef6ff; }
+.course-notice p { margin: 0; }
+.course-notice p + p { margin-top: 0.75rem; }
+.course-materials-note { margin: 1.5rem 0 0; border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
 .breadcrumb ol { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
 .breadcrumb li:not(:last-child)::after { margin-left: 0.35rem; content: "/"; color: var(--muted); }
 .card-list, .material-list, .resource-list { margin: 1rem 0 0; padding: 0; list-style: none; }
 .card-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
-.card, .material-card, .resource-list > li { border: 0.125rem solid var(--border); border-radius: 0.5rem; padding: 1rem 1.25rem; background: var(--surface); }
+.card, .material-card, .resource-list > li, .textbook-list > li { border: 0.125rem solid var(--border); border-radius: 0.5rem; padding: 1rem 1.25rem; background: var(--surface); }
 .card h2, .card h3, .material-card h3, .resource-list h3 { margin-top: 0; }
 .material-list { display: grid; gap: 1.25rem; }
+.activity-list { display: grid; gap: 1.25rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.activity-list > li { border: 0.125rem solid var(--border); border-radius: 0.5rem; padding: 1rem 1.25rem; background: var(--surface); }
+.activity-list h3 { margin-top: 0; }
+.activity-link { display: inline-block; font-weight: 750; }
+.activity-note { border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
+.textbook-list { display: grid; gap: 1.25rem; margin: 1rem 0 0; padding-left: 2rem; }
+.textbook-list > li { padding-left: 1.5rem; }
+.textbook-list p:first-child { margin-top: 0; }
+.textbook-list p:last-child { margin-bottom: 0; }
+.textbook-links { padding-left: 1.5rem; }
+.citation { font-weight: 650; }
 .material-card.demo { border-color: var(--demo-border); background: var(--demo-bg); }
 .material-card.planned { border-style: dashed; }
 .status { color: #543f00; }

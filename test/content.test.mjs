@@ -17,22 +17,49 @@ test("目前課程包含已規劃的單元編號", async () => {
   ]);
   assert.deepEqual(courses[0].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6]);
   assert.deepEqual(courses[0].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06"]);
-  assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2]);
+  assert.equal(courses[0].textbooks.length, 3);
+  assert.equal(courses[0].units[0].code, "1-00");
+  assert.equal(courses[1].textbooks.length, 1);
+  assert.equal(courses[1].materials_note, "其餘使用的教材則為老師自編的講義，可在 TronClass 下載。");
+  assert.equal(courses[1].units[0].code, "1-00");
+  assert.equal(courses[1].units[0].title, "課程介紹");
+  assert.equal(courses[1].units[0].activities.length, 1);
+  assert.equal(courses[1].units[0].activities[0].title, "作業一");
+  assert.equal(courses[1].units[3].activities_note, "本單元預計有數個線上作業；題目、連結與繳交方式待提供。");
+  assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.deepEqual(courses[1].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06", "1-07", "1-08"]);
 });
 
-test("可用的示範教材都使用 Dropbox HTTPS 網址並明確標記", async () => {
+test("正式教材提供個別 Dropbox 下載網址，未上傳教材維持 planned", async () => {
   const { courses } = await loadContent(path.join(projectRoot, "content"));
   const materials = courses.flatMap((course) => course.units.flatMap((unit) => unit.materials));
   const demos = materials.filter((material) => material.is_demo);
   const planned = materials.filter((material) => material.status === "planned");
-  assert.equal(materials.length, 27);
-  assert.equal(demos.length, 3);
-  assert.equal(planned.length, 24);
+  const informationOrganizationMaterials = courses[0].units.flatMap((unit) => unit.materials);
+  const availableInformationOrganizationMaterials = informationOrganizationMaterials.filter((material) => material.status !== "planned");
+  const referenceMaterials = courses[1].units.flatMap((unit) => unit.materials);
+  const availableReferenceMaterials = referenceMaterials.filter((material) => material.status !== "planned");
+  assert.equal(materials.length, 44);
+  assert.equal(demos.length, 0);
+  assert.equal(planned.length, 14);
+  assert.equal(availableInformationOrganizationMaterials.length, 22);
+  assert.equal(availableReferenceMaterials.length, 8);
   for (const material of demos) {
     assert.equal(material.is_demo, true);
     assert.match(material.dropbox_url, /^https:\/\/(?:[^/]+\.)?dropbox\.com\//);
   }
+  for (const material of availableInformationOrganizationMaterials) {
+    const url = new URL(material.dropbox_url);
+    assert.equal(url.searchParams.get("dl"), "1");
+    assert.ok(material.filename);
+  }
+  for (const material of availableReferenceMaterials) {
+    const url = new URL(material.dropbox_url);
+    assert.equal(url.searchParams.get("dl"), "1");
+    assert.ok(material.filename);
+  }
   for (const material of planned) assert.equal(material.dropbox_url, undefined);
+  assert.equal(new URL(courses[0].textbooks[1].links[0].url).searchParams.get("dl"), "1");
 });
 
 test("輸出文字會進行 HTML escaping", () => {

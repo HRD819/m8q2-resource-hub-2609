@@ -47,6 +47,47 @@ function validateDropboxUrl(value, location, errors) {
   }
 }
 
+function validateHttpsUrl(value, location, errors) {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:") errors.push(`${location}: url 必須使用 HTTPS。`);
+  } catch {
+    errors.push(`${location}: url 不是有效網址。`);
+  }
+}
+
+function validateCourseNotice(notice, location, errors) {
+  if (!requireObject(notice, location, errors)) return;
+  requireString(notice, "text", location, errors);
+  requireString(notice, "url", location, errors);
+  if (typeof notice.url === "string" && notice.url.trim()) validateHttpsUrl(notice.url, location, errors);
+}
+
+function validateTextbooks(textbooks, location, errors) {
+  if (!Array.isArray(textbooks)) {
+    errors.push(`${location}: textbooks 必須是 array。`);
+    return;
+  }
+  textbooks.forEach((textbook, index) => {
+    const itemLocation = `${location}.textbooks[${index}]`;
+    if (!requireObject(textbook, itemLocation, errors)) return;
+    for (const field of ["citation", "note"]) requireString(textbook, field, itemLocation, errors);
+    if (textbook.call_number !== undefined && (typeof textbook.call_number !== "string" || textbook.call_number.trim() === "")) {
+      errors.push(`${itemLocation}: call_number 如有提供，必須是非空白字串。`);
+    }
+    if (!Array.isArray(textbook.links) || textbook.links.length === 0) {
+      errors.push(`${itemLocation}: links 必須是至少含一筆連結的 array。`);
+      return;
+    }
+    textbook.links.forEach((link, linkIndex) => {
+      const linkLocation = `${itemLocation}.links[${linkIndex}]`;
+      if (!requireObject(link, linkLocation, errors)) return;
+      for (const field of ["label", "url"]) requireString(link, field, linkLocation, errors);
+      if (typeof link.url === "string" && link.url.trim()) validateHttpsUrl(link.url, linkLocation, errors);
+    });
+  });
+}
+
 function validateMaterials(materials, location, errors) {
   if (!Array.isArray(materials)) {
     errors.push(`${location}: materials 必須是 array。`);
@@ -104,6 +145,35 @@ function validateSupplements(supplements, location, errors) {
   });
 }
 
+function validateActivities(activities, location, errors) {
+  if (!Array.isArray(activities)) {
+    errors.push(`${location}: activities 必須是 array。`);
+    return;
+  }
+  activities.forEach((activity, index) => {
+    const itemLocation = `${location}.activities[${index}]`;
+    if (!requireObject(activity, itemLocation, errors)) return;
+    for (const field of ["title", "type", "description", "url", "url_label"]) {
+      requireString(activity, field, itemLocation, errors);
+    }
+    if (typeof activity.url === "string" && activity.url.trim()) validateHttpsUrl(activity.url, itemLocation, errors);
+    for (const field of ["deadline", "submission"]) {
+      if (activity[field] !== undefined && (typeof activity[field] !== "string" || activity[field].trim() === "")) {
+        errors.push(`${itemLocation}: ${field} 如有提供，必須是非空白字串。`);
+      }
+    }
+    if (!Array.isArray(activity.instructions) || activity.instructions.length === 0) {
+      errors.push(`${itemLocation}: instructions 必須是至少含一項說明的 array。`);
+    } else {
+      activity.instructions.forEach((instruction, instructionIndex) => {
+        if (typeof instruction !== "string" || instruction.trim() === "") {
+          errors.push(`${itemLocation}.instructions[${instructionIndex}]: 必須是非空白字串。`);
+        }
+      });
+    }
+  });
+}
+
 export async function readJson(file) {
   const source = await readFile(file, "utf8");
   try {
@@ -119,6 +189,7 @@ export async function loadContent(contentRoot) {
   const site = await readJson(sitePath);
   if (requireObject(site, "content/site.json", errors)) {
     for (const field of REQUIRED_SITE_FIELDS) requireString(site, field, "content/site.json", errors);
+    if (site.course_notice !== undefined) validateCourseNotice(site.course_notice, "content/site.json.course_notice", errors);
   }
 
   const coursesRoot = path.join(contentRoot, "courses");
@@ -143,6 +214,8 @@ export async function loadContent(contentRoot) {
       if (typeof course.slug === "string" && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(course.slug)) {
         errors.push(`${courseLocation}: slug 只能使用小寫英文、數字與單一連字號。`);
       }
+      if (course.textbooks !== undefined) validateTextbooks(course.textbooks, courseLocation, errors);
+      if (course.materials_note !== undefined) requireString(course, "materials_note", courseLocation, errors);
     }
 
     const unitEntries = (await readdir(courseRoot, { withFileTypes: true }))
@@ -166,6 +239,8 @@ export async function loadContent(contentRoot) {
         if (unit.unit !== filenameUnit) errors.push(`${unitLocation}: unit 與檔名編號不一致。`);
         validateDate(unit.updated, unitLocation, errors);
         validateMaterials(unit.materials, unitLocation, errors);
+        if (unit.activities !== undefined) validateActivities(unit.activities, unitLocation, errors);
+        if (unit.activities_note !== undefined) requireString(unit, "activities_note", unitLocation, errors);
         validateSupplements(unit.supplements, unitLocation, errors);
       }
       units.push(unit);

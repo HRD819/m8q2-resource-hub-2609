@@ -1,15 +1,24 @@
 {
   "unit": 1,
-  "title": "第 1 單元",
-  "description": "本單元的正式說明待教師補充。",
+  "code": "1-01",
+  "title": "參考資源概論及種類 Ch. 1-2",
+  "description": "本單元介紹參考資源概論及種類；正式文字說明待教師補充。",
   "materials": [
     {
-      "title": "參考資源第 1 單元示範教材",
-      "description": "這是驗證網站導覽與連結文字的示範項目，不是正式教材。",
-      "file_type": "PDF（示範）",
-      "dropbox_url": "https://www.dropbox.com/",
-      "note": "待取得正式 Dropbox 分享連結後替換。",
-      "is_demo": true
+      "title": "1-01 參考資源概論及種類 ch1-2",
+      "description": "參考資源概論及種類的 PowerPoint 版本。",
+      "file_type": "PowerPoint（PPTX）",
+      "filename": "1-01.參考資源概論及種類ch1-2(70p)_260904.pptx",
+      "dropbox_url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AAT-b4LfiAfEgVx264PAHQk/1-01.%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E6%A6%82%E8%AB%96%E5%8F%8A%E7%A8%AE%E9%A1%9Ech1-2%2870p%29_260904.pptx?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1",
+      "updated": "2026-09-04"
+    },
+    {
+      "title": "1-01 參考資源概論及種類 ch1-2",
+      "description": "參考資源概論及種類的 PDF 版本。",
+      "file_type": "PDF",
+      "filename": "1-01.參考資源概論及種類ch1-2(70p).pdf",
+      "dropbox_url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AIrycaTWgFxrlQ1sSlaK5HQ/1-01.%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E6%A6%82%E8%AB%96%E5%8F%8A%E7%A8%AE%E9%A1%9Ech1-2%2870p%29.pdf?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1",
+      "updated": "2026-09-04"
     }
   ],
   "supplements": []

@@ -1,15 +1,57 @@
 {
   "unit": 0,
-  "title": "第 0 單元",
+  "code": "1-00",
+  "title": "課程介紹",
   "description": "本單元的正式說明待教師補充。",
   "materials": [
     {
-      "title": "參考資源第 0 單元示範教材",
-      "description": "這是驗證網站導覽與連結文字的示範項目，不是正式教材。",
-      "file_type": "PDF（示範）",
-      "dropbox_url": "https://www.dropbox.com/",
-      "note": "待取得正式 Dropbox 分享連結後替換。",
-      "is_demo": true
+      "title": "1151 參考資源課程大綱（發放用）",
+      "description": "課程大綱的 Word 版本。",
+      "file_type": "Word（DOCX）",
+      "filename": "1-00.1151參考資源課程大綱_發放用.docx",
+      "dropbox_url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AMKMkMlSIUbC18Xh6fvaRXU/1-00.1151%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E8%AA%B2%E7%A8%8B%E5%A4%A7%E7%B6%B1_%E7%99%BC%E6%94%BE%E7%94%A8.docx?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1",
+      "updated": "2026-09-04"
+    },
+    {
+      "title": "1151 參考資源課程大綱（發放用）",
+      "description": "課程大綱的 PDF 版本。",
+      "file_type": "PDF",
+      "filename": "1-00.1151參考資源課程大綱_發放用.pdf",
+      "dropbox_url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AALZnc0dqPhXTY7eMyhOZ3U/1-00.1151%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E8%AA%B2%E7%A8%8B%E5%A4%A7%E7%B6%B1_%E7%99%BC%E6%94%BE%E7%94%A8.pdf?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1",
+      "updated": "2026-09-04"
+    },
+    {
+      "title": "參考資源課程簡介",
+      "description": "課程簡介的 PDF 版本。",
+      "file_type": "PDF",
+      "filename": "1-00.參考資源課程簡介260904.pdf",
+      "dropbox_url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AIMFnIV_DOzplAOF7KaZ9kg/1-00.%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E8%AA%B2%E7%A8%8B%E7%B0%A1%E4%BB%8B260904.pdf?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1",
+      "updated": "2026-09-04"
+    },
+    {
+      "title": "參考資源課程簡介",
+      "description": "課程簡介的 PowerPoint 版本。",
+      "file_type": "PowerPoint（PPTX）",
+      "filename": "1-00.參考資源課程簡介260904.pptx",
+      "dropbox_url": "https://www.dropbox.com/scl/fo/n6t58erhaxydbotcethla/AH126RM-4_9NMdqJAz9MgVQ/1-00.%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90%E8%AA%B2%E7%A8%8B%E7%B0%A1%E4%BB%8B260904.pptx?rlkey=06hzk7tsmxq2ulw7husgp5j1g&dl=1",
+      "updated": "2026-09-04"
+    }
+  ],
+  "activities": [
+    {
+      "title": "作業一",
+      "type": "作業",
+      "description": "請依課程進度完成題目。",
+      "url": "https://docs.google.com/document/d/1xcdgz-_pq9iXxC4o3KwwMq0i_V9D3yYAdMPvyT-gmfI/edit?tab=t.0",
+      "url_label": "開啟作業一題目 Google 文件",
+      "deadline": "11 月 13 日上課前完成所有題目；當日繳交。",
+      "submission": "紙本及電子檔均需繳交：當日繳交紙本並上傳電子檔。",
+      "instructions": [
+        "請依課程進度完成題目。",
+        "請保留題目，並將紅色字部分刪除。",
+        "題目可能會陸續增加，請將所有題目合併為一個檔案。",
+        "紙本及電子檔均需繳交，只交其中一份者該項作業得分扣 30 分。"
+      ]
     }
   ],
   "supplements": []
