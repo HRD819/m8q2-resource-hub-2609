@@ -92,10 +92,10 @@
   "activities": [
     {
       "title": "作業一",
-      "type": "Google文件檔(唯讀)",
-      "description": "請開啟google文件後，依據檔案/下載/Microsoft Word (.docx)的路徑自行下載檔案編輯。",
-      "url": "https://docs.google.com/document/d/1xcdgz-_pq9iXxC4o3KwwMq0i_V9D3yYAdMPvyT-gmfI/edit?tab=t.0",
-      "url_label": "開啟作業一題目 Google 文件",
+      "type": "Word（DOCX）",
+      "description": "請下載作業一 Word 檔案後編輯。",
+      "url": "https://www.dropbox.com/scl/fi/ssf5ofwjzyxxmaecoydfw/1151.docx?rlkey=739tygda9jz1xxez7cinovna0&dl=1",
+      "url_label": "下載作業一 Word（DOCX）檔案",
       "deadline": "11 月 13 日上課前完成所有題目，繳交紙本並上傳電子檔至TronClass。"
     }
   ],

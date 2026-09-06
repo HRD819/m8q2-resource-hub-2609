@@ -41,7 +41,9 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.equal(courses[1].units[0].title, "課程介紹");
   assert.equal(courses[1].units[0].activities.length, 1);
   assert.equal(courses[1].units[0].activities[0].title, "作業一");
-  assert.equal(courses[1].units[0].activities[0].type, "Google文件檔(唯讀)");
+  assert.equal(courses[1].units[0].activities[0].type, "Word（DOCX）");
+  assert.equal(courses[1].units[0].activities[0].url, "https://www.dropbox.com/scl/fi/ssf5ofwjzyxxmaecoydfw/1151.docx?rlkey=739tygda9jz1xxez7cinovna0&dl=1");
+  assert.equal(courses[1].units[0].activities[0].url_label, "下載作業一 Word（DOCX）檔案");
   assert.equal(courses[1].units[0].activities[0].deadline, "11 月 13 日上課前完成所有題目，繳交紙本並上傳電子檔至TronClass。");
   assert.equal(courses[1].units[0].activities[0].instructions, undefined);
   assert.equal(courses[1].units[0].description_items.length, 6);
