@@ -54,6 +54,16 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.equal(courses[0].units[5].supplements[0].url, "https://www.booklife.com.tw/baike-detail/9/1279");
   assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
   assert.deepEqual(courses[1].units.map((unit) => unit.code), ["1-00", "1-01", "1-02", "1-03", "1-04", "1-05", "1-06", "1-07", "1-08"]);
+  assert.equal(courses[1].activities.length, 1);
+  const finalActivity = courses[1].activities[0];
+  assert.deepEqual(finalActivity.instructions, [
+    "請參考第二章p24-25、以及第七章的內容自主學習",
+    "第17-18週的學習活動，可提前開始",
+    "為個人作業",
+    "表格可依個人需求調整",
+  ]);
+  assert.equal(new URL(finalActivity.url).searchParams.get("dl"), "1");
+  assert.equal(finalActivity.attachments[0].url, "https://docs.google.com/document/d/1otUOA54iyoAamKOz20lB-HrZkS4pv6W6Axk_FWjgKQY/edit?tab=t.0#heading=h.gjdgxs");
   for (const course of courses) {
     for (const unit of course.units) {
       assert.doesNotMatch(unit.description, /正式文字說明待補|正式文字說明待教師補充|本單元為課程介紹；正式文字說明待補/);

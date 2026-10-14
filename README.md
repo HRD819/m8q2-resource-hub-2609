@@ -120,6 +120,8 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 
 `code` 是顯示給學生的課程內單元編碼，例如 `1-00`、`1-01`；未提供時才直接顯示 `title`。`updated` 可省略；如有值，必須使用 `YYYY-MM-DD`。每門課至少要有 `unit-00.json`。
 
+若活動不屬於任何單元，可將 `activities` 放在對應的 `course.json`；課程頁會於單元清單後顯示「獨立作業與學習活動」，不占用單元編號。活動欄位與單元內的 `activities` 相同。
+
 單元的 `description` 為簡短說明；`description_items` 可省略，若有提供則以有序清單呈現。每筆清單包含 `text`，並可用 `links` 陣列加入具體的 HTTPS 連結（例如課程檔案、TronClass 或校方資源）。
 
 `activities` 可省略；有資料時會在單元的教材下載後顯示「作業與學習活動」區段。若已知單元預計有作業但題目尚未整理，可使用 `activities_note` 顯示待提供狀態。每筆活動包含必要的 `title`、`type`、`description`、`url`、`url_label`；`instructions`、`deadline`、`submission` 可省略。`attachments` 可省略；有附件時以 `[{"label":"開啟版權頁圖片附件","url":"https://..."}]` 加入同一項作業的附件清單。所有活動及附件連結須使用 HTTPS，作業規則請拆成有順序的說明項目。

@@ -134,6 +134,10 @@ function renderCourse(course) {
           ${[...textbookCards, unitCards].join("\n          ")}
         </ul>
       </section>
+      ${course.activities?.length ? `<section aria-labelledby="course-activities-heading">
+        <h2 id="course-activities-heading">獨立作業與學習活動</h2>
+        ${renderActivities(course.activities)}
+      </section>` : ""}
     </main>`;
   return renderLayout({
     site,

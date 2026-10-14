@@ -264,6 +264,7 @@ export async function loadContent(contentRoot) {
       }
       if (course.course_note !== undefined) requireString(course, "course_note", courseLocation, errors);
       if (course.materials_note !== undefined) requireString(course, "materials_note", courseLocation, errors);
+      if (course.activities !== undefined) validateActivities(course.activities, courseLocation, errors);
     }
 
     const unitEntries = (await readdir(courseRoot, { withFileTypes: true }))

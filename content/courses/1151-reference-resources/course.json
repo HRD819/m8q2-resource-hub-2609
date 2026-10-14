@@ -21,5 +21,26 @@
     }
   ],
   "materials_note": "其餘使用的教材則為老師自編的講義，可在 TronClass 下載。",
+  "activities": [
+    {
+      "title": "(17-18週)彈性自主學習活動",
+      "type": "Word（DOCX）",
+      "description": "請下載 Word 檔案，依下列說明完成個人作業。",
+      "url": "https://www.dropbox.com/scl/fi/hehxqzf8qtldx20uublg2/1151.docx?rlkey=rcjuart7yi4dekmmsp02005pw&dl=1",
+      "url_label": "下載 (17-18週)彈性自主學習活動 Word（DOCX）檔案",
+      "attachments": [
+        {
+          "label": "開啟 (17-18週)彈性自主學習活動作業 Google 文件",
+          "url": "https://docs.google.com/document/d/1otUOA54iyoAamKOz20lB-HrZkS4pv6W6Axk_FWjgKQY/edit?tab=t.0#heading=h.gjdgxs"
+        }
+      ],
+      "instructions": [
+        "請參考第二章p24-25、以及第七章的內容自主學習",
+        "第17-18週的學習活動，可提前開始",
+        "為個人作業",
+        "表格可依個人需求調整"
+      ]
+    }
+  ],
   "order": 2
 }
