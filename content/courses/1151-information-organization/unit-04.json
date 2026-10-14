@@ -3,6 +3,7 @@
   "code": "1-04",
   "title": "卡片目錄",
   "description": "本單元介紹卡片目錄。",
+  "updated": "2026-10-14",
   "materials": [
     {
       "title": "1-04 卡片目錄",
@@ -21,5 +22,14 @@
       "updated": "2026-09-04"
     }
   ],
-  "supplements": []
+  "supplements": [],
+  "activities": [
+    {
+      "title": "(作業2)1-04卡片目錄",
+      "type": "PDF",
+      "description": "卡片目錄作業的 PDF 檔案。",
+      "url": "https://www.dropbox.com/scl/fi/7um5o981cqxj3nz79izb9/2-1-04.pdf?rlkey=koajqcnlpy1p8nx7bdaviv5os&dl=1",
+      "url_label": "下載 (作業2)1-04卡片目錄 PDF 檔案"
+    }
+  ]
 }
