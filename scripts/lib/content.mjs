@@ -186,6 +186,19 @@ function validateActivities(activities, location, errors) {
       requireString(activity, field, itemLocation, errors);
     }
     if (typeof activity.url === "string" && activity.url.trim()) validateHttpsUrl(activity.url, itemLocation, errors);
+    if (activity.attachments !== undefined) {
+      if (!Array.isArray(activity.attachments) || activity.attachments.length === 0) {
+        errors.push(`${itemLocation}: attachments 如有提供，必須是至少含一筆連結的 array。`);
+      } else {
+        activity.attachments.forEach((attachment, attachmentIndex) => {
+          const attachmentLocation = `${itemLocation}.attachments[${attachmentIndex}]`;
+          if (!requireObject(attachment, attachmentLocation, errors)) return;
+          requireString(attachment, "label", attachmentLocation, errors);
+          requireString(attachment, "url", attachmentLocation, errors);
+          if (typeof attachment.url === "string" && attachment.url.trim()) validateHttpsUrl(attachment.url, attachmentLocation, errors);
+        });
+      }
+    }
     for (const field of ["deadline", "submission"]) {
       if (activity[field] !== undefined && (typeof activity[field] !== "string" || activity[field].trim() === "")) {
         errors.push(`${itemLocation}: ${field} 如有提供，必須是非空白字串。`);

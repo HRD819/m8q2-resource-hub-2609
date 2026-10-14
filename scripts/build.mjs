@@ -225,6 +225,10 @@ function renderActivities(activities) {
             <p><strong>類型：</strong>${escapeHtml(activity.type)}</p>
             <p>${escapeHtml(activity.description)}</p>
             <p><a class="activity-link" href="${escapeHtml(activity.url)}">${escapeHtml(activity.url_label)}</a></p>
+            ${activity.attachments?.length ? `<p><strong>附件：</strong></p>
+            <ul class="activity-attachments">
+              ${activity.attachments.map((attachment) => `<li><a href="${escapeHtml(attachment.url)}">${escapeHtml(attachment.label)}</a></li>`).join("\n              ")}
+            </ul>` : ""}
             <dl class="metadata">
               ${activity.deadline ? `<div><dt>完成期限</dt><dd>${escapeHtml(activity.deadline)}</dd></div>` : ""}
               ${activity.submission ? `<div><dt>繳交方式</dt><dd>${escapeHtml(activity.submission)}</dd></div>` : ""}
@@ -343,6 +347,7 @@ h3 { font-size: 1.2rem; }
 .activity-list > li { border: 0.125rem solid var(--border); border-radius: 0.5rem; padding: 1rem 1.25rem; background: var(--surface); }
 .activity-list h3 { margin-top: 0; }
 .activity-link { display: inline-block; font-weight: 750; }
+.activity-attachments { margin: 0.5rem 0 1rem; padding-left: 1.5rem; }
 .activity-note { border-left: 0.35rem solid var(--accent); padding: 0.75rem 1rem; background: var(--surface); }
 .unit-description-list { margin: 1rem 0; padding-left: 1.5rem; }
 .unit-description-list li + li { margin-top: 0.7rem; }

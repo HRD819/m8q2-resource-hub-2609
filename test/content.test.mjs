@@ -32,6 +32,9 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.equal(courses[0].course_note, "1-01單元以後的課程內容都有在TronClass提供pdf檔,此處額外提供可編輯的檔案，因此一樣的檔案會有2種檔案格式");
   assert.equal(courses[0].units[0].code, "1-00");
   assert.equal(courses[0].units[0].description_items.length, 5);
+  assert.equal(courses[0].units[3].activities.length, 1);
+  assert.equal(courses[0].units[3].activities[0].title, "1-03 標準號碼作業");
+  assert.equal(courses[0].units[3].activities[0].attachments[0].url, "https://hrd819.github.io/io-copyright-1151-k7m4/");
   assert.equal(courses[1].textbooks.length, 1);
   assert.equal(courses[1].textbooks[0].slug, "reference-resources-and-services");
   assert.equal(courses[1].textbooks[0].card_note, "主要只需要前4章，搭配單元1-01、1-02使用");

@@ -122,7 +122,7 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 
 單元的 `description` 為簡短說明；`description_items` 可省略，若有提供則以有序清單呈現。每筆清單包含 `text`，並可用 `links` 陣列加入具體的 HTTPS 連結（例如課程檔案、TronClass 或校方資源）。
 
-`activities` 可省略；有資料時會在單元的教材下載後顯示「作業與學習活動」區段。若已知單元預計有作業但題目尚未整理，可使用 `activities_note` 顯示待提供狀態。每筆活動包含 `title`、`type`、`description`、`url`、`url_label` 與 `instructions`；`deadline`、`submission` 可用來呈現期限與繳交方式。活動連結須使用 HTTPS，作業規則請拆成有順序的說明項目。
+`activities` 可省略；有資料時會在單元的教材下載後顯示「作業與學習活動」區段。若已知單元預計有作業但題目尚未整理，可使用 `activities_note` 顯示待提供狀態。每筆活動包含必要的 `title`、`type`、`description`、`url`、`url_label`；`instructions`、`deadline`、`submission` 可省略。`attachments` 可省略；有附件時以 `[{"label":"開啟版權頁圖片附件","url":"https://..."}]` 加入同一項作業的附件清單。所有活動及附件連結須使用 HTTPS，作業規則請拆成有順序的說明項目。
 
 ### Material
 
@@ -194,7 +194,7 @@ accessible_course_demo_v2/      # reference Demo; not deployed
 ### Add an assignment or learning activity
 
 1. 在正確的 `unit-XX.json` 加入 `activities` 陣列。
-2. 填寫活動題目連結、期限與繳交方式；若有逐項規則再加入 `instructions` 陣列。連結文字要直接說明目的，例如「開啟作業一題目 Google 文件」。
+2. 填寫活動題目連結、期限與繳交方式；若有相關連結，加入同一活動的 `attachments` 陣列；若有逐項規則再加入 `instructions` 陣列。連結文字要直接說明目的，例如「下載作業一 Word（DOCX）檔案」。
 3. 執行 `npm run ci`，確認活動區段與連結文字通過檢查。
 
 首頁「最近更新」由單元或正式教材的 `updated` 自動產生；示範項目不列入。
