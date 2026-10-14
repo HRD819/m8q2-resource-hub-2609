@@ -3,6 +3,7 @@
   "code": "1-03",
   "title": "標準號碼",
   "description": "本單元介紹標準號碼。",
+  "updated": "2026-10-14",
   "materials": [
     {
       "title": "1-03 標準號碼",
@@ -21,5 +22,21 @@
       "updated": "2026-09-04"
     }
   ],
-  "supplements": []
+  "supplements": [],
+  "activities": [
+    {
+      "title": "1-03 版權頁圖片",
+      "type": "網頁",
+      "description": "請依您座號的個位數字選擇對應號碼的圖片",
+      "url": "https://hrd819.github.io/io-copyright-1151-k7m4/",
+      "url_label": "開啟 1-03 版權頁圖片（編號 0–9）"
+    },
+    {
+      "title": "1-03 標準號碼作業",
+      "type": "Word（DOCX）",
+      "description": "標準號碼作業的 Word 檔案。",
+      "url": "https://www.dropbox.com/scl/fi/w0914am4a76jhswpo7awj/1-1-03-115.docx?rlkey=42991h0zs6p554wkv24chwlsj&dl=1",
+      "url_label": "下載 1-03 標準號碼作業（Word DOCX）"
+    }
+  ]
 }
