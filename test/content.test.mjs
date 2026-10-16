@@ -50,6 +50,7 @@ test("目前課程包含已規劃的單元編號", async () => {
   assert.equal(courses[1].units[0].activities[0].deadline, "11 月 13 日上課前完成所有題目，繳交紙本並上傳電子檔至TronClass。");
   assert.equal(courses[1].units[0].activities[0].instructions, undefined);
   assert.equal(courses[1].units[0].description_items.length, 6);
+  assert.equal(courses[1].units[2].supplements[0].url, "https://hrd819.github.io/information-retrieval-practice/");
   assert.equal(courses[1].units[3].activities_note, "本單元預計有數個線上作業；題目、連結與繳交方式待提供。");
   assert.equal(courses[0].units[5].supplements[0].url, "https://www.booklife.com.tw/baike-detail/9/1279");
   assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);

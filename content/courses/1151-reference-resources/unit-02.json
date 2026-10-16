@@ -21,5 +21,11 @@
       "updated": "2026-09-04"
     }
   ],
-  "supplements": []
+  "supplements": [
+    {
+      "title": "資訊檢索練習網站",
+      "description": "提供本單元參考資源利用與選擇的線上操作與練習。",
+      "url": "https://hrd819.github.io/information-retrieval-practice/"
+    }
+  ]
 }
