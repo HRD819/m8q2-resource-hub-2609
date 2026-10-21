@@ -55,6 +55,10 @@ test("目前課程包含已規劃的單元編號", async () => {
     "1-02.參考資源利用與選擇ch3-4(47p)_261016.pptx",
     "1-02.參考資源利用與選擇ch3-4(47p)_261016.pdf",
   ]);
+  assert.deepEqual(courses[1].units[3].materials.map((material) => material.filename), [
+    "1-03.書目資源(193p)_261021.pptx",
+    "1-03.書目資源(193p).pdf",
+  ]);
   assert.equal(courses[1].units[3].activities_note, "本單元預計有數個線上作業；題目、連結與繳交方式待提供。");
   assert.equal(courses[0].units[5].supplements[0].url, "https://www.booklife.com.tw/baike-detail/9/1279");
   assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
@@ -87,9 +91,9 @@ test("正式教材提供個別 Dropbox 下載網址，未上傳教材維持 plan
   const availableReferenceMaterials = referenceMaterials.filter((material) => material.status !== "planned");
   assert.equal(materials.length, 44);
   assert.equal(demos.length, 0);
-  assert.equal(planned.length, 14);
+  assert.equal(planned.length, 12);
   assert.equal(availableInformationOrganizationMaterials.length, 22);
-  assert.equal(availableReferenceMaterials.length, 8);
+  assert.equal(availableReferenceMaterials.length, 10);
   for (const material of demos) {
     assert.equal(material.is_demo, true);
     assert.match(material.dropbox_url, /^https:\/\/(?:[^/]+\.)?dropbox\.com\//);
