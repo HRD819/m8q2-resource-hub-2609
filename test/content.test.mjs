@@ -56,8 +56,8 @@ test("目前課程包含已規劃的單元編號", async () => {
     "1-02.參考資源利用與選擇ch3-4(47p)_261016.pdf",
   ]);
   assert.deepEqual(courses[1].units[3].materials.map((material) => material.filename), [
-    "1-03.書目資源(193p)_261021.pptx",
-    "1-03.書目資源(193p).pdf",
+    "1-03.書目資源(193p)_261021(p.).pptx",
+    "1-03.書目資源(191p).pdf",
   ]);
   assert.deepEqual(courses[0].units[4].materials.map((material) => material.filename), [
     "1-04卡片目錄(p79)_261028.pptx",
