@@ -59,6 +59,11 @@ test("目前課程包含已規劃的單元編號", async () => {
     "1-03.書目資源(193p)_261021(p.).pptx",
     "1-03.書目資源(191p).pdf",
   ]);
+  assert.deepEqual(courses[1].units[4].materials.map((material) => material.filename), [
+    "1-04.網路資源與搜索引擎(145p)_261112.pptx",
+    "1-04.網路資源與搜索引擎(145p).pdf",
+  ]);
+  assert.equal(courses[1].units[4].materials.every((material) => new URL(material.dropbox_url).searchParams.get("dl") === "1"), true);
   assert.deepEqual(courses[0].units[4].materials.map((material) => material.filename), [
     "1-04卡片目錄(p79)_261028.pptx",
     "1-04卡片目錄(p79).pdf",
@@ -97,9 +102,9 @@ test("正式教材提供個別 Dropbox 下載網址，未上傳教材維持 plan
   const availableReferenceMaterials = referenceMaterials.filter((material) => material.status !== "planned");
   assert.equal(materials.length, 44);
   assert.equal(demos.length, 0);
-  assert.equal(planned.length, 12);
+  assert.equal(planned.length, 10);
   assert.equal(availableInformationOrganizationMaterials.length, 22);
-  assert.equal(availableReferenceMaterials.length, 10);
+  assert.equal(availableReferenceMaterials.length, 12);
   for (const material of demos) {
     assert.equal(material.is_demo, true);
     assert.match(material.dropbox_url, /^https:\/\/(?:[^/]+\.)?dropbox\.com\//);
