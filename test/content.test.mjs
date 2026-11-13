@@ -56,8 +56,8 @@ test("目前課程包含已規劃的單元編號", async () => {
     "1-02.參考資源利用與選擇ch3-4(47p)_261016.pdf",
   ]);
   assert.deepEqual(courses[1].units[3].materials.map((material) => material.filename), [
-    "1-03.書目資源(193p)_261021(p.).pptx",
-    "1-03.書目資源(191p).pdf",
+    "1-03.書目資源(190p)_2611112.pptx",
+    "1-03.書目資源(190p).pdf",
   ]);
   assert.deepEqual(courses[1].units[4].materials.map((material) => material.filename), [
     "1-04.網路資源與搜索引擎(145p)_261112.pptx",
@@ -69,7 +69,7 @@ test("目前課程包含已規劃的單元編號", async () => {
     "1-04卡片目錄(p79).pdf",
   ]);
   assert.equal(courses[0].units[4].materials.every((material) => new URL(material.dropbox_url).searchParams.get("dl") === "1"), true);
-  assert.equal(courses[0].units[4].activities[0].attachments[0].url, "https://www.dropbox.com/scl/fo/hh2vm7m9g4dae8lb6b9h5/AAHF93SZNf1Pg32wPsiMijI?rlkey=hqvuoegv9g4xzim0iyerlkfs9&subpath=%2F%28%E4%BD%9C%E6%A5%AD2%291-04%E5%8D%A1%E7%89%87%E7%9B%AE%E9%8C%84%E8%AA%AA%E6%98%8E.pdf&dl=1");
+  assert.equal(courses[0].units[4].activities[0].attachments[0].url, "https://www.dropbox.com/scl/fo/hh2vm7m9g4dae8lb6b9h5/AHH4vdXqj4RujgrBEOJYxr8/%28%E4%BD%9C%E6%A5%AD2%291-04%E5%8D%A1%E7%89%87%E7%9B%AE%E9%8C%84%E8%AA%AA%E6%98%8E.pdf?rlkey=hqvuoegv9g4xzim0iyerlkfs9&dl=1");
   assert.equal(courses[1].units[3].activities_note, "本單元預計有數個線上作業；題目、連結與繳交方式待提供。");
   assert.equal(courses[0].units[5].supplements[0].url, "https://www.booklife.com.tw/baike-detail/9/1279");
   assert.deepEqual(courses[1].units.map((unit) => unit.unit), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
@@ -112,11 +112,13 @@ test("正式教材提供個別 Dropbox 下載網址，未上傳教材維持 plan
   for (const material of availableInformationOrganizationMaterials) {
     const url = new URL(material.dropbox_url);
     assert.equal(url.searchParams.get("dl"), "1");
+    assert.equal(url.searchParams.has("subpath"), false);
     assert.ok(material.filename);
   }
   for (const material of availableReferenceMaterials) {
     const url = new URL(material.dropbox_url);
     assert.equal(url.searchParams.get("dl"), "1");
+    assert.equal(url.searchParams.has("subpath"), false);
     assert.ok(material.filename);
   }
   for (const material of planned) assert.equal(material.dropbox_url, undefined);
